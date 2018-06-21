@@ -9,10 +9,11 @@ Install
 Credits
 -------
 
-Created by Essedi It Consulting Slu:
+Created by Essedi It Consulting Slu :
 * Dario Spitaleri
+	* dario@essedi.es
 * Dani Lozano
-* * daniel@essedi.es
+	* daniel@essedi.es
 * Victor Dos Santos
-
+	* victor@essedi.es
 
