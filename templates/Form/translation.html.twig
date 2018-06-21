@@ -1,0 +1,42 @@
+{% block translation_widget %}
+    {% spaceless %}
+        {% set defaultLang = 'es'%}
+        {% if form %}
+            <div class="form-group">
+                <ul class="nav nav-tabs">                    
+                    {% for locale, fields in form.vars.value %}
+                        <li class="nav-item {{locale == defaultLang ? 'active' : ''}}">
+                            <a class="nav-link" id="{{locale}}-tab" data-toggle="tab" role="tab" aria-controls="{{locale}}" aria-selected="true" href="#{{locale}}">{{locale}}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="nav-item">
+                        <a class="nav-link" id="new-tab" data-toggle="tab" role="tab" aria-controls="new" aria-selected="true"  href="#new"><i class="fa fa-plus"></i></a>
+                    </li>
+                </ul>
+                <div class="tab-content">                 
+                    {% for locale, fields in form.vars.value %}
+                        <div class="tab-pane {{locale == defaultLang ? 'active' : ''}}" id="{{locale}}" role="tabpanel" aria-labelledby="{{locale}}-tab">
+
+                            {% for fieldName, fieldValue in fields %}
+                                <label for="{{locale}}{{fieldName}}">{% trans %}%fieldName%{% endtrans %}</label>
+                                <input id="{{locale}}{{fieldName}}" type="text" name="translations[{{locale}}][{{fieldName}}]" value="{{fieldValue}}" class="form-control"/>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <div class="tab-pane" id="new" role="tabpanel" aria-labelledby="new-tab">
+                        <label for="newlocale">locale</label>
+                        {#                        <input id="newlocale" type="text" name="translations[new][locale]" value="" class="form-control"/>#}
+                        {{ form_widget(form.newlocale, { 'name': 'translations[new][locale]' }) }}
+                        {% for fieldName, fieldValue in form.vars.value[defaultLang] %}
+                            <label for="new{{fieldName}}">{% trans %}%fieldName%{% endtrans %}</label>
+                            <input id="new{{fieldName}}" type="text" name="translations[new][{{fieldName}}]" value="" class="form-control"/>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            {# just let the choice widget render the select tag #}
+            {{ block('choice_widget') }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
