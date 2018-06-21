@@ -1,0 +1,17 @@
+<h1 align="center"><a href="https://essedi.es"><img src="http://www.essedi.es/wp-content/uploads/2017/12/cropped-newsletter-logo-essedi.png" alt="Essedi"></a></h1>
+
+
+Install
+-------
+
+ [Building]
+
+Credits
+-------
+
+Created by Essedi It Consulting Slu:
+* Dario Spitaleri
+* Dani Lozano
+* Victor Dos Santos
+
+
