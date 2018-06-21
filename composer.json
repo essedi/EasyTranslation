@@ -1,0 +1,32 @@
+{
+	"name": "essedi/EasyTranslator",
+	"description": "",
+	"type": "package",
+	"require": {
+		"php": ">=5.3.0"
+	},
+    	"license": "mit",
+	"authors": [
+		{
+		    "name": "Dario Spitaleri",
+		    "email": "dario@essedi.es",
+		    "homepage": "http://essedi.es"
+		},
+		{
+		    "name": "Dani Lozano",
+		    "email": "dani@essedi.es",
+		    "homepage": "http://essedi.es"
+		},
+		{
+		    "name": "Victor Dos Santos",
+		    "email": "victor@essedi.es",
+		    "homepage": "http://essedi.es"
+		}
+    	],
+    	"minimum-stability": "dev",
+    	"autoload": {
+        	"psr-4": {
+            		"ourcodeworld\\HelloComposer\\": "src/"
+        		}
+    	}		
+}
