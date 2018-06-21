@@ -12,6 +12,7 @@ Credits
 Created by Essedi It Consulting Slu:
 * Dario Spitaleri
 * Dani Lozano
+* * daniel@essedi.es
 * Victor Dos Santos
 
 
