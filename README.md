@@ -115,7 +115,7 @@ namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Essedi\EasyTranslationBundle\Entity\Translation;
+use Essedi\EasyTranslation\Entity\Translation;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Doctrine\Common\Annotations\Reader;
 
