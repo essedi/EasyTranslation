@@ -4,6 +4,7 @@ namespace Essedi\EasyTranslation\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 class EssediEasyTranslationExtension extends Extension
 {
