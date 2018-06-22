@@ -1,6 +1,6 @@
 <?php
 
-namespace Essedi\EasyTranslator;
+namespace Essedi\EasyTranslationBundle;
 
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
