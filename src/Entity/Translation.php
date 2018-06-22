@@ -19,7 +19,7 @@ abstract class Translation
 
     /**
      * @var FieldTranslation[]
-     * @ManyToMany(targetEntity="FieldTranslation", cascade={"persist", "remove"})
+     * @ManyToMany(targetEntity="Essedi\EasyTranslation\Entity\FieldTranslation", cascade={"persist", "remove"})
      */
     protected $translations;
 

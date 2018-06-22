@@ -5,6 +5,7 @@ namespace Essedi\EasyTranslation\Annotation\Driver;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;//Use essential kernel component
 use SomeNamespace\SomeBundle\Security\Permission;//In this class I check correspondence permission to user
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
 class AnnotationDriver{
     private $reader;
     public function __construct($reader)
