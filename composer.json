@@ -2,6 +2,7 @@
 	"name": "Essedi/EasyTranslator",
 	"description": "",
 	"type": "symfony-bundle",
+        "homepage": "http://essedi.es",
 	"require": {
 		"php": ">=7.1"
 	},
@@ -9,18 +10,15 @@
 	"authors": [
 		{
 		    "name": "Dario Spitaleri",
-		    "email": "dario@essedi.es",
-		    "homepage": "http://essedi.es"
+		    "email": "dario@essedi.es"
 		},
 		{
 		    "name": "Dani Lozano",
-		    "email": "dani@essedi.es",
-		    "homepage": "http://essedi.es"
+		    "email": "dani@essedi.es"
 		},
 		{
 		    "name": "Victor Dos Santos",
-		    "email": "victor@essedi.es",
-		    "homepage": "http://essedi.es"
+		    "email": "victor@essedi.es"
 		}
     	],
     	"minimum-stability": "stable"
