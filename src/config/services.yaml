@@ -7,5 +7,6 @@ services:
             
     Essedi\EasyTranslator\Annotation\Driver\AnnotationDriver:
         class: App\Annotation\Driver\AnnotationDriver
-        tags: [{name: kernel.event_listener, event: kernel.controller, method: onKernelController}]
+        tags: 
+            - {name: kernel.event_listener, event: kernel.controller, method: onKernelController}
         arguments: ["@annotation_reader"]
