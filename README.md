@@ -3,8 +3,6 @@
 # EasyTranslator
 ***
 
-Install
--------
 Installation
 ============
 
@@ -57,7 +55,7 @@ class AppKernel extends Kernel
 
     // ...
 }
-```]
+```
 
 You can set Translatable form on you EasyAdmin adding this code on your entity fields
 
