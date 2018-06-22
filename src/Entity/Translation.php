@@ -9,6 +9,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Essedi\EasyTranslationBundle\Annotation\Translatable;
 use Essedi\EasyTranslationBundle\Annotation\TranslateMe;
+use Essedi\EasyTranslationBundle\Entity\FieldTranslation;
 
 /** @MappedSuperclass */
 abstract class Translation
