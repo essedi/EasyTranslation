@@ -1,12 +1,11 @@
 <?php
 
-namespace Essedi\EasyTranslationBundle;
+namespace Essedi\EasyTranslation;
 
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class EssediEasyTranslatorBundle extends Bundle
+class EssediEasyTranslationBundle extends Bundle
 {
 
     /**

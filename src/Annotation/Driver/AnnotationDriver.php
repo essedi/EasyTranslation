@@ -1,12 +1,9 @@
 <?php
 
-namespace Essedi\EasyTranslationBundle\Annotation\Driver;
+namespace Essedi\EasyTranslation\Annotation\Driver;
 
-use Doctrine\Common\Annotations\Reader;//This thing read annotations
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;//Use essential kernel component
-use SomeNamespace\SomeBundle\Annotations;//Use our annotation
 use SomeNamespace\SomeBundle\Security\Permission;//In this class I check correspondence permission to user
-use Symfony\Component\HttpFoundation\Response;// For example I will throw 403, if access denied
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class AnnotationDriver{
     private $reader;

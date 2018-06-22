@@ -1,15 +1,15 @@
 <?php
 
-namespace Essedi\EasyTranslationBundle\Entity;
+namespace Essedi\EasyTranslation\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Essedi\EasyTranslationBundle\Annotation\Translatable;
-use Essedi\EasyTranslationBundle\Annotation\TranslateMe;
-use Essedi\EasyTranslationBundle\Entity\FieldTranslation;
+use Essedi\EasyTranslation\Annotation\Translatable;
+use Essedi\EasyTranslation\Annotation\TranslateMe;
+use Essedi\EasyTranslation\Entity\FieldTranslation;
 
 /** @MappedSuperclass */
 abstract class Translation

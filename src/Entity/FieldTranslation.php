@@ -1,5 +1,5 @@
 <?php
-namespace Essedi\EasyTranslationBundle\Entity;
+namespace Essedi\EasyTranslation\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

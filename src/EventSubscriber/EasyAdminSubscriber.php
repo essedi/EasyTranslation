@@ -1,13 +1,11 @@
 <?php
 
-namespace Essedi\EasyTranslationBundle\EventSubscriber;
+namespace Essedi\EasyTranslation\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Essedi\EasyTranslationBundle\Entity\Translation;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-use Essedi\EasyTranslationBundle\Annotation\Translatable;
-use Essedi\EasyTranslationBundle\Annotation\TranslateMe;
 use Doctrine\Common\Annotations\Reader;
 
 /**

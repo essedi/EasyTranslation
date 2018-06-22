@@ -5,11 +5,11 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="Essedi\EasyTranslator\EventSubscriber\TranslatableSubscriber">
+        <service id="Essedi\EasyTranslation\EventSubscriber\TranslatableSubscriber">
             <argument>["@annotation_reader"]</argument>
             <tag name="doctrine.event_listener," event="postLoad" />
         </service>
-        <service id="Essedi\EasyTranslator\Annotation\Driver\AnnotationDriver" class="App\Annotation\Driver\AnnotationDriver">
+        <service id="Essedi\EasyTranslation\Annotation\Driver\AnnotationDriver" class="App\Annotation\Driver\AnnotationDriver">
             <argument>["@annotation_reader"]</argument>
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
 

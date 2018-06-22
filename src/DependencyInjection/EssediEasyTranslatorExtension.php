@@ -1,11 +1,11 @@
 <?php
 
-namespace Essedi\EasyTranslator\DependencyInjection;
+namespace Essedi\EasyTranslation\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class EssediEasyTranslatorExtension extends Extension
+class EssediEasyTranslationExtension extends Extension
 {
 
     public function load(array $configs, ContainerBuilder $container)
