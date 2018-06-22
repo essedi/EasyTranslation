@@ -1,3 +1,4 @@
+services:
     App\EventSubscriber\TranslatableSubscriber:
         arguments: ["@annotation_reader"]
         tags:
