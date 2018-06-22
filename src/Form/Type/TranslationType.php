@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Form\Type;
+namespace Essedi\EasyTranslationBundle\Form\Type;
 
-use App\Entity\FieldTranslation;
+use Essedi\EasyTranslationBundle\Entity\FieldTranslation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\LocaleType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\Type\TabsType;
+use Essedi\EasyTranslationBundle\Form\Type\TabsType;
 
 class TranslationType extends AbstractType
 {

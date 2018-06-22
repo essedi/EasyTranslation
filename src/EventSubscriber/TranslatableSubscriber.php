@@ -1,16 +1,16 @@
 <?php
 
-namespace App\EventSubscriber;
+namespace Essedi\EasyTranslationBundle\EventSubscriber;
 
-use App\Entity\Translation;
-use App\Entity\PackageType;
+use Essedi\EasyTranslationBundle\Entity\Translation;
+use Essedi\EasyTranslationBundle\Entity\PackageType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 use Doctrine\Common\Annotations\Reader;
-use App\Annotation\Translatable;
-use App\Annotation\TranslateMe;
+use Essedi\EasyTranslationBundle\Annotation\Translatable;
+use Essedi\EasyTranslationBundle\Annotation\TranslateMe;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 
 class TranslatableSubscriber implements EventSubscriberInterface

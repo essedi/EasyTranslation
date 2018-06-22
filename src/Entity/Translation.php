@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace Essedi\EasyTranslationBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\MappedSuperclass;
-use App\Entity\FieldTranslation;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Symfony\Component\Serializer\Annotation\Groups;
-use App\Annotation\Translatable;
-use App\Annotation\TranslateMe;
+use Essedi\EasyTranslationBundle\Annotation\Translatable;
+use Essedi\EasyTranslationBundle\Annotation\TranslateMe;
 
 /** @MappedSuperclass */
 abstract class Translation
@@ -36,9 +34,7 @@ abstract class Translation
         return $this->locale;
     }
 
-    /**
-     * @Groups({"read", "installation-read", "mapa", "user-read"})
-     */
+    
     public function getTranslations()
     {
         $toRet = [];

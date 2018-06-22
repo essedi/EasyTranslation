@@ -1,7 +1,7 @@
 {
 	"name": "essedi/EasyTranslator",
 	"description": "",
-	"type": "package",
+	"type": "symfony-bundle",
 	"require": {
 		"php": ">=5.3.0"
 	},
