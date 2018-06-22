@@ -1,6 +1,6 @@
 twig:
     paths: 
-        "%kernel.root_dir%/../vendor/Essedi/EasyTranslation/Resources": Essedi
+        "%kernel.root_dir%/../vendor/Essedi/EasyTranslation/src/Resources": Essedi
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes:

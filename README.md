@@ -38,24 +38,126 @@ in the `app/AppKernel.php` file of your project:
 
 ```php
 <?php
-// app/AppKernel.php
+////config/bundles.php
+return [
+...
+    Essedi\EasyTranslation\EssediEasyTranslationBundle::class => ['all' => true],
+];
 
-// ...
-class AppKernel extends Kernel
+```
+### Step 3: Copy Configs
+
+#### Services
+```php
+<?php
+////App/config/services.php
+services:
+    Essedi\EasyTranslation\EventSubscriber\TranslatableSubscriber:
+        arguments: ["@annotation_reader"]
+        tags:
+            - { name: doctrine.event_listener, event: postLoad} 
+
+            
+    Essedi\EasyTranslation\Annotation\Driver\AnnotationDriver:
+        class: Essedi\EasyTranslation\Annotation\Driver\AnnotationDriver
+        tags: 
+            - {name: kernel.event_listener, event: kernel.controller, method: onKernelController}
+        arguments: ["@annotation_reader"]
+```
+
+#### Twing config
+Only if want integrate with EasyAdmin
+```php
+<?php
+////App/config/packages/twing.php
+twig:
+    paths: 
+        "%kernel.root_dir%/../vendor/Essedi/EasyTranslation/src/Resources": Essedi
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes:
+        - '@Essedi/Form/translation.html.twig'
+
+```
+### Step 4: Set EasyAdminSubscriber
+Only if want integrate with EasyAdmin
+
+```php
+<?php
+////App/EventSubscriber/EasyAdminSubscriber.php
+namespace App\EventSubscriber;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Essedi\EasyTranslationBundle\Entity\Translation;
+use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Doctrine\Common\Annotations\Reader;
+
+class EasyAdminSubscriber implements EventSubscriberInterface
 {
-    public function registerBundles()
-    {
-        $bundles = array(
-            // ...
-            new <vendor>\<bundle-name>\<bundle-long-name>(),
-        );
 
-        // ...
+    /**
+     *
+     * @var Reader 
+     */
+    private $annotationReader;
+
+    public function __construct(Reader $annotationReader)
+    {
+        $this->annotationReader = $annotationReader;
     }
 
-    // ...
+    public static function getSubscribedEvents()
+    {
+        return array(
+            EasyAdminEvents::PRE_PERSIST => array('editTranslatable'),
+            EasyAdminEvents::PRE_UPDATE => array('editTranslatable')
+        );
+    }
+
+    public function editTranslatable(GenericEvent $event)
+    {
+
+        $args = $event->getArguments();
+        $requestParams = $args["request"]->request->all();
+        $entity = $event->getSubject();
+        if ($entity instanceof Translation)
+        {
+            if (isset($requestParams["translations"]))
+            {
+                //get new locale 
+                foreach ($requestParams as $requestParam)
+                {
+                    if (isset($requestParam["translations"]["newlocale"]))
+                    {
+                        $newLocale = $requestParam["translations"]["newlocale"];
+                        break;
+                    }
+                }
+
+                if ($newLocale)
+                {
+                    $requestParams["translations"][$newLocale] = [];
+                    foreach ($requestParams["translations"]['new'] as $field => $value)
+                    {
+                        if ($field != 'locale')
+                        {
+                            $requestParams["translations"][$newLocale][$field] = $value;
+                        }
+                    }
+                }
+                unset($requestParams["translations"]['new']);
+                $entity->setTranslations($requestParams["translations"]);
+            }
+        }
+    }
+
 }
+
 ```
+
+### Step 5: Set EasyAdmin form fields translatables
+Only if want integrate with EasyAdmin
 
 You can set Translatable form on you EasyAdmin adding this code on your entity fields
 

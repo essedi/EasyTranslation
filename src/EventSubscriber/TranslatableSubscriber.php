@@ -7,6 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
+use Essedi\EasyTranslation\Annotation\Translatable;
 
 class TranslatableSubscriber implements EventSubscriberInterface
 {
