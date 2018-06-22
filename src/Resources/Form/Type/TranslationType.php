@@ -1,6 +1,6 @@
 <?php
 
-namespace Essedi\EasyTranslation\Form\Type;
+namespace Essedi\EasyTranslation\Resources\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\LocaleType;
