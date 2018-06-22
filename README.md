@@ -1,10 +1,19 @@
 <h1 align="center"><a href="http://www.essedi.es"><img src="http://www.essedi.es/wp-content/uploads/2017/12/cropped-newsletter-logo-essedi.png" alt="Essedi"></a></h1>
 
-
+# EasyTranslator
 Install
 -------
 
  [Building]
+
+You can set Translatable form on you EasyAdmin adding this code on your entity fields
+
+```
+	    - property: translations
+                      label: 'translatables'
+                      type: 'Essedi\EasyTranslator\Form\Type\TranslationType'
+```
+
 
 Credits
 -------
