@@ -1,11 +1,11 @@
 services:
-    App\EventSubscriber\TranslatableSubscriber:
+    Essedi\EasyTranslator\EventSubscriber\TranslatableSubscriber:
         arguments: ["@annotation_reader"]
         tags:
             - { name: doctrine.event_listener, event: postLoad} 
 
             
-    App\Annotation\Driver\AnnotationDriver:
+    Essedi\EasyTranslator\Annotation\Driver\AnnotationDriver:
         class: App\Annotation\Driver\AnnotationDriver
         tags: [{name: kernel.event_listener, event: kernel.controller, method: onKernelController}]
         arguments: ["@annotation_reader"]
