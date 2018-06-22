@@ -21,6 +21,9 @@
 		    "email": "victor@essedi.es"
 		}
     	],
-    	"minimum-stability": "stable"
+    	"minimum-stability": "stable",
+        "autoload": {
+            "psr-4": {"Essedi\\": "src/"}
+        }
     		
 }
