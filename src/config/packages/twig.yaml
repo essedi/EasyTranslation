@@ -1,0 +1,7 @@
+twig:
+    paths: 
+        "%kernel.root_dir%/../vendor/Essedi/EasyTranslation/Resources": Essedi
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes:
+        - '@Essedi/Form/translation.html.twig'
