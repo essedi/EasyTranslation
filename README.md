@@ -6,18 +6,6 @@
 Installation
 ============
 
-Applications that use Symfony Flex
-----------------------------------
-
-Open a command console, enter your project directory and execute:
-
-```console
-$ composer require Essedi\EasyTranslator
-```
-
-Applications that don't use Symfony Flex
-----------------------------------------
-
 ### Step 1: Download the Bundle
 
 Open a command console, enter your project directory and execute the
@@ -79,7 +67,45 @@ twig:
         - '@Essedi/Form/translation.html.twig'
 
 ```
-### Step 4: Set EasyAdminSubscriber
+### Step 4: Set Entity for translate
+
+#### add uses
+```php
+<?php
+////App/Entity/YourEntity.php
+
+```
+
+You need to set the Entity like translatable 
+```php
+use Essedi\EasyTranslation\Entity\Translation;
+use Essedi\EasyTranslation\Annotation as Essedi;
+use Essedi\EasyTranslation\Annotation\Translatable;
+use Essedi\EasyTranslation\Annotation\TranslateMe;
+```
+
+#### add Annotations 
+class annotation
+```php
+<?php
+/*
+ * @Essedi\Translatable
+ */
+```
+property annotation
+```php
+<?php
+/*
+ * @Essedi\TranslateMe
+ */
+```
+#### extend class 
+```php
+<?php
+	class YourEntity extends Translation
+```
+
+### Step 5: Set EasyAdminSubscriber
 Only if want integrate with EasyAdmin
 
 ```php
@@ -156,15 +182,15 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
 ```
 
-### Step 5: Set EasyAdmin form fields translatables
+### Step 6: Set EasyAdmin form fields translatables
 Only if want integrate with EasyAdmin
 
 You can set Translatable form on you EasyAdmin adding this code on your entity fields
 
 ```
-	    - property: translations
-                      label: 'translatables'
-                      type: 'Essedi\EasyTranslator\Form\Type\TranslationType'
+		- property: translations
+                  label: 'translatables'
+                  type: 'Essedi\EasyTranslation\Resources\Form\Type\TranslationType'
 ```
 
 
