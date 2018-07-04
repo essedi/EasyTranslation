@@ -4,7 +4,8 @@
 	"type": "symfony-bundle",
         "homepage": "http://essedi.es",
 	"require": {
-		"php": ">=7.1"
+		"php": ">=7.1",
+		"symfony/dependency-injection": "^"
 	},
     	"license": "mit",
 	"authors": [
