@@ -8,6 +8,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Essedi\EasyTranslation\Annotation\Translatable;
+use Doctrine\Common\Util\ClassUtils;
 
 class TranslatableSubscriber implements EventSubscriberInterface
 {
@@ -39,7 +40,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
 
-        $class = get_class($entity);
+        $class = ClassUtils::getClass($entity);
         $reflectedEntity = new \ReflectionClass($class);
         $res = $this->annotationReader->getClassAnnotation($reflectedEntity, Translatable::class);
         //the clas has been marked as Translatable

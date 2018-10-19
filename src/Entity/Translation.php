@@ -10,6 +10,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Essedi\EasyTranslation\Annotation\Translatable;
 use Essedi\EasyTranslation\Annotation\TranslateMe;
 use Essedi\EasyTranslation\Entity\FieldTranslation;
+use Doctrine\Common\Util\ClassUtils;
 
 /** @MappedSuperclass */
 abstract class Translation
@@ -190,7 +191,7 @@ abstract class Translation
     public function getTranslatableFields()
     {
         $annotationReader = new AnnotationReader();
-        $reflectedEntity = new \ReflectionClass($this);
+        $reflectedEntity = new \ReflectionClass(ClassUtils::getClass($this));
         $res = $annotationReader->getClassAnnotation($reflectedEntity, Translatable::class);
         $fields = [];
         if ($res)
