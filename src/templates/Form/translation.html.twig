@@ -18,7 +18,7 @@
                         <div class="tab-pane {{locale == defaultLang ? 'active' : ''}}" id="{{locale}}" role="tabpanel" aria-labelledby="{{locale}}-tab">
 
                             {% for fieldName, fieldValue in fields %}
-                                <label for="{{locale}}{{fieldName}}">{% trans %}%fieldName%{% endtrans %}</label>
+                                <label for="{{locale}}{{fieldName}}">{{fieldName|trans}}</label>
                                 <input id="{{locale}}{{fieldName}}" type="text" name="translations[{{locale}}][{{fieldName}}]" value="{{fieldValue}}" class="form-control"/>
                             {% endfor %}
                         </div>
