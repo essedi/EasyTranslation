@@ -10,7 +10,15 @@ Installation
 
 Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
-
+Adds repo to composer repository
+```php
+"repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:essedi/EasyTranslation.git"
+        }
+    ],
+```
 ```console
 $ composer require Essedi\EasyTranslator
 ```
