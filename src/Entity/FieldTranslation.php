@@ -19,20 +19,20 @@ class FieldTranslation
     private $id;
     
     /**
-     * @ORM\Column(type="string")
-     * 
+     * @var string Lang abbr
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $locale;
     
     /**
-     * @ORM\Column(type="string")
-     * 
+     * @var string column filed name 
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $fieldName;
     
     /**
-     * @ORM\Column(type="string")
-     * 
+     * @var string final value
+     * @ORM\Column(type="text", length=2555, nullable=true)
      */
     private $fieldValue;
 
