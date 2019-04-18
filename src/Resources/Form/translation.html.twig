@@ -27,10 +27,12 @@
                         <label for="newlocale">locale</label>
                         {#                        <input id="newlocale" type="text" name="translations[new][locale]" value="" class="form-control"/>#}
                         {{ form_widget(form.newlocale, { 'name': 'translations[new][locale]' }) }}
-                        {% for fieldName, fieldValue in form.vars.value[defaultLang] %}
-                            <label for="new{{fieldName}}">{% trans %}%fieldName%{% endtrans %}</label>
-                            <input id="new{{fieldName}}" type="text" name="translations[new][{{fieldName}}]" value="" class="form-control"/>
-                        {% endfor %}
+                        {%   if form.vars.value != null  %}
+                            {% for fieldName, fieldValue in form.vars.value[defaultLang] %}
+                                <label for="new{{fieldName}}">{% trans %}%fieldName%{% endtrans %}</label>
+                                <input id="new{{fieldName}}" type="text" name="translations[new][{{fieldName}}]" value="" class="form-control"/>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
