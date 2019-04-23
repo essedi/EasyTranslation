@@ -1,9 +1,10 @@
 <?php
 
 namespace Essedi\EasyTranslation\Annotation;
+
 /**
-* @Annotation
-*/
+ * @Annotation
+ */
 class TranslateMe
 {
     

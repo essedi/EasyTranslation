@@ -37,19 +37,19 @@ class TranslatableSubscriber implements EventSubscriberInterface
 
     public function postLoad(LifecycleEventArgs $args)
     {
-        $entity = $args->getEntity();
+        $entity        = $args->getEntity();
         $entityManager = $args->getEntityManager();
 
-        $class = ClassUtils::getClass($entity);
+        $class           = ClassUtils::getClass($entity);
         $reflectedEntity = new \ReflectionClass($class);
-        $res = $this->annotationReader->getClassAnnotation($reflectedEntity, Translatable::class);
+        $res             = $this->annotationReader->getClassAnnotation($reflectedEntity, Translatable::class);
         //the clas has been marked as Translatable
         if ($res && $entity instanceof Translation)
         {
             //getting all class translations
             $mappedTranslations = $entity->getTranslations();
             //the container locale
-            $currentLocale = "es";
+            $currentLocale      = "es";
 
             $classProperties = $entity->getTranslatableFields();
 
@@ -61,17 +61,18 @@ class TranslatableSubscriber implements EventSubscriberInterface
                 if (isset($mappedTranslations[$currentLocale]) && isset($mappedTranslations[$currentLocale][$currentProperty]))
                 {
                     $setterMethod->invoke($entity, $mappedTranslations[$currentLocale][$currentProperty]);
-                } else
+                }
+                else
                 {
                     if (!isset($mappedTranslations[$currentLocale]))
                     {
                         $mappedTranslations[$currentLocale] = [];
-                        $mappedTranslationsUpdated = true;
+                        $mappedTranslationsUpdated          = true;
                     }
                     if (!isset($mappedTranslations[$currentLocale][$currentProperty]))
                     {
                         $mappedTranslations[$currentLocale][$currentProperty] = "";
-                        $mappedTranslationsUpdated = true;
+                        $mappedTranslationsUpdated                            = true;
                     }
                     $setterMethod->invoke($entity, "");
                 }
@@ -83,7 +84,8 @@ class TranslatableSubscriber implements EventSubscriberInterface
                 $entityManager->persist($entity);
                 $entityManager->flush();
             }
-        } else if ($res)
+        }
+        else if ($res)
         {
             throw new InvalidConfigurationException("The $class is annotated as Translatable but does not extends the Translation abstract class");
         }

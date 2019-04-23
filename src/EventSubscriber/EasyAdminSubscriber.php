@@ -31,16 +31,16 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         return array(
             EasyAdminEvents::PRE_PERSIST => array('editTranslatable'),
-            EasyAdminEvents::PRE_UPDATE => array('editTranslatable')
+            EasyAdminEvents::PRE_UPDATE  => array('editTranslatable')
         );
     }
 
     public function editTranslatable(GenericEvent $event)
     {
 
-        $args = $event->getArguments();
+        $args          = $event->getArguments();
         $requestParams = $args["request"]->request->all();
-        $entity = $event->getSubject();
+        $entity        = $event->getSubject();
         if ($entity instanceof Translation)
         {
             if (isset($requestParams["translations"]))

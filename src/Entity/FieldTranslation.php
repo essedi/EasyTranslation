@@ -1,4 +1,5 @@
 <?php
+
 namespace Essedi\EasyTranslation\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -8,28 +9,27 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FieldTranslation
 {
-    
-     /**
+
+    /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @var string Lang abbr
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $locale;
-    
+
     /**
      * @var string column filed name 
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $fieldName;
-    
+
     /**
      * @var string final value
      * @ORM\Column(type="text", length=2555, nullable=true)
@@ -105,4 +105,5 @@ class FieldTranslation
     {
         return $this->locale . ' - ' . $this->fieldName . ' - ' . $this->fieldValue;
     }
+
 }

@@ -24,7 +24,7 @@ class TranslationType extends AbstractType
                 "es",
                 "en"
             ],
-            "placeholder" => "Chose one"
+            "placeholder"       => "Chose one"
         ));
     }
 
@@ -36,7 +36,7 @@ class TranslationType extends AbstractType
         $resolver->setDefaults(
                 array(
                     'data_class' => null,
-                    'choices' => null,
+                    'choices'    => null,
                 )
         );
     }
