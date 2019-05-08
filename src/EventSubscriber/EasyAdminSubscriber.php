@@ -1,13 +1,11 @@
 <?php
 
-namespace Essedi\EasyTranslationBundle\EventSubscriber;
+namespace Essedi\EasyTranslation\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Essedi\EasyTranslationBundle\Entity\Translation;
+use Essedi\EasyTranslation\Entity\Translation;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-use Essedi\EasyTranslationBundle\Annotation\Translatable;
-use Essedi\EasyTranslationBundle\Annotation\TranslateMe;
 use Doctrine\Common\Annotations\Reader;
 
 /**
@@ -33,16 +31,16 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         return array(
             EasyAdminEvents::PRE_PERSIST => array('editTranslatable'),
-            EasyAdminEvents::PRE_UPDATE => array('editTranslatable')
+            EasyAdminEvents::PRE_UPDATE  => array('editTranslatable')
         );
     }
 
     public function editTranslatable(GenericEvent $event)
     {
 
-        $args = $event->getArguments();
+        $args          = $event->getArguments();
         $requestParams = $args["request"]->request->all();
-        $entity = $event->getSubject();
+        $entity        = $event->getSubject();
         if ($entity instanceof Translation)
         {
             if (isset($requestParams["translations"]))

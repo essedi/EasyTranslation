@@ -18,7 +18,7 @@
                         <div class="tab-pane {{locale == defaultLang ? 'active' : ''}}" id="{{locale}}" role="tabpanel" aria-labelledby="{{locale}}-tab">
 
                             {% for fieldName, fieldValue in fields %}
-                                <label for="{{locale}}{{fieldName}}">{% trans %}%fieldName%{% endtrans %}</label>
+                                <label for="{{locale}}{{fieldName}}">{{fieldName|trans}}</label>
                                 <input id="{{locale}}{{fieldName}}" type="text" name="translations[{{locale}}][{{fieldName}}]" value="{{fieldValue}}" class="form-control"/>
                             {% endfor %}
                         </div>
@@ -27,10 +27,12 @@
                         <label for="newlocale">locale</label>
                         {#                        <input id="newlocale" type="text" name="translations[new][locale]" value="" class="form-control"/>#}
                         {{ form_widget(form.newlocale, { 'name': 'translations[new][locale]' }) }}
-                        {% for fieldName, fieldValue in form.vars.value[defaultLang] %}
-                            <label for="new{{fieldName}}">{% trans %}%fieldName%{% endtrans %}</label>
-                            <input id="new{{fieldName}}" type="text" name="translations[new][{{fieldName}}]" value="" class="form-control"/>
-                        {% endfor %}
+                        {%   if form.vars.value != null  %}
+                            {% for fieldName, fieldValue in form.vars.value[defaultLang] %}
+                                <label for="new{{fieldName}}">{% trans %}%fieldName%{% endtrans %}</label>
+                                <input id="new{{fieldName}}" type="text" name="translations[new][{{fieldName}}]" value="" class="form-control"/>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

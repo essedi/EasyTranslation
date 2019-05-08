@@ -1,14 +1,16 @@
 <?php
 
-namespace Essedi\EasyTranslationBundle\Entity;
+namespace Essedi\EasyTranslation\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Essedi\EasyTranslationBundle\Annotation\Translatable;
-use Essedi\EasyTranslationBundle\Annotation\TranslateMe;
+use Essedi\EasyTranslation\Annotation\Translatable;
+use Essedi\EasyTranslation\Annotation\TranslateMe;
+use Essedi\EasyTranslation\Entity\FieldTranslation;
+use Doctrine\Common\Util\ClassUtils;
 
 /** @MappedSuperclass */
 abstract class Translation
@@ -18,7 +20,7 @@ abstract class Translation
 
     /**
      * @var FieldTranslation[]
-     * @ManyToMany(targetEntity="FieldTranslation", cascade={"persist", "remove"})
+     * @ManyToMany(targetEntity="Essedi\EasyTranslation\Entity\FieldTranslation", cascade={"persist", "remove"})
      */
     protected $translations;
 
@@ -34,7 +36,6 @@ abstract class Translation
         return $this->locale;
     }
 
-    
     public function getTranslations()
     {
         $toRet = [];
@@ -96,7 +97,7 @@ abstract class Translation
                         if ($currentTrans->getFieldName() == $name && $currentTrans->getLocale() == $locale)
                         {
                             $encountred = true;
-                            $ftran = $currentTrans;
+                            $ftran      = $currentTrans;
                             break;
                         }
                     }
@@ -127,7 +128,8 @@ abstract class Translation
         return new ArrayCollection(
                 array_values(
                         $this->translations->filter(
-                                function (FieldTranslation $fieldTranslation) use ($translatableField) {
+                                function (FieldTranslation $fieldTranslation) use ($translatableField)
+                        {
                             return $fieldTranslation->getFieldName() == $translatableField;
                         }
                         )->toArray()
@@ -139,7 +141,8 @@ abstract class Translation
     {
         return reset(
                 $this->translations->filter(
-                        function (FieldTranslation $fieldTranslation) use ($locale) {
+                        function (FieldTranslation $fieldTranslation) use ($locale)
+                {
                     return $fieldTranslation->getLocale() == $locale;
                 }
                 )->toArray()
@@ -151,7 +154,8 @@ abstract class Translation
         $locale = $locale ? $locale : $this->locale;
         return reset(
                 $this->translations->filter(
-                        function (FieldTranslation $fieldTranslation) use ($translatableField, $locale) {
+                        function (FieldTranslation $fieldTranslation) use ($translatableField, $locale)
+                {
                     return $fieldTranslation->getFieldName() == $translatableField && $fieldTranslation->getLocale() == $locale;
                 }
                 )->toArray()
@@ -171,7 +175,8 @@ abstract class Translation
                 if ($translations->contains($translation))
                 {
                     $translations->removeElement($translation);
-                } else
+                }
+                else
                 {
                     $this->translations->removeElement($translation);
                 }
@@ -193,9 +198,9 @@ abstract class Translation
     public function getTranslatableFields()
     {
         $annotationReader = new AnnotationReader();
-        $reflectedEntity = new \ReflectionClass($this);
-        $res = $annotationReader->getClassAnnotation($reflectedEntity, Translatable::class);
-        $fields = [];
+        $reflectedEntity  = new \ReflectionClass(ClassUtils::getClass($this));
+        $res              = $annotationReader->getClassAnnotation($reflectedEntity, Translatable::class);
+        $fields           = [];
         if ($res)
         {
             $classProperties = $reflectedEntity->getProperties();

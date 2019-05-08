@@ -1,14 +1,12 @@
 <?php
 
-namespace Essedi\EasyTranslationBundle\Form\Type;
+namespace Essedi\EasyTranslation\Resources\Form\Type;
 
-use Essedi\EasyTranslationBundle\Entity\FieldTranslation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\LocaleType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Essedi\EasyTranslationBundle\Form\Type\TabsType;
 
 class TranslationType extends AbstractType
 {
@@ -26,7 +24,7 @@ class TranslationType extends AbstractType
                 "es",
                 "en"
             ],
-            "placeholder" => "Chose one"
+            "placeholder"       => "Chose one"
         ));
     }
 
@@ -38,7 +36,7 @@ class TranslationType extends AbstractType
         $resolver->setDefaults(
                 array(
                     'data_class' => null,
-                    'choices' => null,
+                    'choices'    => null,
                 )
         );
     }
@@ -48,7 +46,7 @@ class TranslationType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_fieldtranslation';
+        return 'essedi_easytranslator_type';
     }
 
     public function getBlockPrefix()
