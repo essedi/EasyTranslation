@@ -6,5 +6,8 @@ namespace Essedi\EasyTranslationBundle\Annotation;
 */
 class TranslateMe
 {
-    
+    /**
+     * @var mixed
+     */
+    public $type = 'text';
 }

@@ -1,32 +1,31 @@
 {
-	"name": "essedi/EasyTranslator",
+	"name": "Essedi/EasyTranslation",
 	"description": "",
 	"type": "symfony-bundle",
+        "homepage": "http://essedi.es",
 	"require": {
-		"php": ">=5.3.0"
+		"php": ">=7.1",
+		"symfony/dependency-injection": "*",
+		"friendsofsymfony/ckeditor-bundle": "^2.1"
 	},
     	"license": "mit",
 	"authors": [
 		{
 		    "name": "Dario Spitaleri",
-		    "email": "dario@essedi.es",
-		    "homepage": "http://essedi.es"
+		    "email": "dario@essedi.es"
 		},
 		{
 		    "name": "Dani Lozano",
-		    "email": "dani@essedi.es",
-		    "homepage": "http://essedi.es"
+		    "email": "dani@essedi.es"
 		},
 		{
 		    "name": "Victor Dos Santos",
-		    "email": "victor@essedi.es",
-		    "homepage": "http://essedi.es"
+		    "email": "victor@essedi.es"
 		}
     	],
-    	"minimum-stability": "dev",
-    	"autoload": {
-        	"psr-4": {
-            		"ourcodeworld\\HelloComposer\\": "src/"
-        		}
-    	}		
+    	"minimum-stability": "stable",
+        "autoload": {
+            "psr-4": {"Essedi\\EasyTranslation\\": "src/"}
+        }
+    		
 }

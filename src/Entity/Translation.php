@@ -46,7 +46,11 @@ abstract class Translation
                 {
                     $toRet[$translation->getLocale()] = array();
                 }
-                $toRet[$translation->getLocale()][$translation->getFieldName()] = $translation->getFieldValue();
+                /*if (isset($field[$translation->getFieldName()]))
+                {
+                    $translation->setFieldType()
+                }*/
+                $toRet[$translation->getLocale()][$translation->getFieldName()] = $translation;
             }
         }
         if (!isset($toRet[$this->locale]))
@@ -61,7 +65,7 @@ abstract class Translation
             {
                 if (!isset($field[$avField]))
                 {
-                    $toRet[$lang][$avField] = '';
+                    $toRet[$lang][$avField] = null;
                 }
             }
         }
