@@ -9,6 +9,7 @@ use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Essedi\EasyTranslation\Annotation\Translatable;
 use Doctrine\Common\Util\ClassUtils;
+use Essedi\EasyTranslation\Entity\FieldTranslation;
 
 class TranslatableSubscriber implements EventSubscriberInterface
 {
