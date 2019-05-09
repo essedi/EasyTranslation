@@ -56,14 +56,18 @@ abstract class Translation
             $toRet[$this->locale] = array();
         }
         //check if all translations contains all fields
-        $avFields = $this->getTranslatableFields();
-        foreach ($avFields as $avField)
+        $avFields = $this->getTranslatableAnnotations();
+        foreach ($avFields as $avField => $annotation)
         {
             foreach ($toRet as $lang => $field)
             {
                 if (!isset($field[$avField]))
                 {
-                    $toRet[$lang][$avField] = null;
+                    $ftran = new FieldTranslation();
+                    $ftran->setFieldName($avField);
+                    $ftran->setLocale($lang);
+                    $ftran->setFieldType($annotation->type);
+                    $toRet[$lang][$avField] = $ftran;
                 }
             }
         }
