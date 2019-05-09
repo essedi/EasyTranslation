@@ -76,7 +76,12 @@ class TranslatableSubscriber implements EventSubscriberInterface
                         }
                         if (!isset($mappedTranslations[$currentLocale][$currentProperty]))
                         {
-                            $mappedTranslations[$currentLocale][$currentProperty] = "";
+                            $ftran = new FieldTranslation();
+                            $ftran->setFieldName($currentProperty);
+                            $ftran->setLocale($currentLocale);
+                            $ftran->setFieldType($annotation->type);
+
+                            $mappedTranslations[$currentLocale][$currentProperty] = $ftran;
                             $mappedTranslationsUpdated                            = true;
                         }
                         $setterMethod->invoke($entity, "");
