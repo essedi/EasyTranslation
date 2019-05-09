@@ -114,9 +114,21 @@ property annotation
 ```php
 <?php
 /*
- * @Essedi\TranslateMe
+ * @Essedi\TranslateMe(type="text")
  */
 ```
+Attributes:
+   * type:
+        * text : default value
+        * textarea
+        * checkbox
+        * number
+        * date
+        * email
+        * password
+        * color
+        * ckeditor
+         
 #### extend class 
 ```php
 <?php
