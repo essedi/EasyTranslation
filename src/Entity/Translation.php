@@ -47,6 +47,7 @@ abstract class Translation
                 {
                     $toRet[$translation->getLocale()] = array();
                 }
+                
                 $toRet[$translation->getLocale()][$translation->getFieldName()] = $translation;
             }
         }
