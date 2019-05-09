@@ -1,0 +1,8 @@
+fos_ck_editor:
+    configs:
+        cms:
+            toolbar: "cms"
+            uiColor: "#000000"
+    toolbars:
+        configs:
+            cms: [ ["Save" ], "/", [ "Anchor" ], "/", [ "Maximize" ] ]
