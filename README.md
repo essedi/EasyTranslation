@@ -27,6 +27,16 @@ This command requires you to have Composer installed globally, as explained
 in the [installation chapter](https://getcomposer.org/doc/00-intro.md)
 of the Composer documentation.
 
+Once, you have registered the bundle, you need to install CKEditor:
+```console
+$ php bin/console ckeditor:install
+
+```
+Once, you have downloaded CKEditor, you need to install it in the web directory.
+```console
+$ php bin/console assets:install public
+```
+
 ### Step 2: Enable the Bundle
 
 Then, enable the bundle by adding it to the list of registered bundles

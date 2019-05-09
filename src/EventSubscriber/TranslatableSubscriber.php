@@ -49,35 +49,40 @@ class TranslatableSubscriber implements EventSubscriberInterface
             //getting all class translations
             $mappedTranslations = $entity->getTranslations();
             //the container locale
-            $currentLocale      = "es";
+            $locales = array_keys($mappedTranslations);
+            $locales = count($locales) ? $locales : ["es"];
 
-            $classProperties = $entity->getTranslatableFields();
+            $classProperties = $entity->getTranslatableAnnotations();
 
             $mappedTranslationsUpdated = false;
-            foreach ($classProperties as $currentProperty)
-            {
-
-                $setterMethod = $reflectedEntity->getMethod("set" . ucfirst($currentProperty));
-                if (isset($mappedTranslations[$currentLocale]) && isset($mappedTranslations[$currentLocale][$currentProperty]))
+            foreach ($locales as $currentLocale){
+                foreach ($classProperties as $currentProperty => $annotation)
                 {
-                    $setterMethod->invoke($entity, $mappedTranslations[$currentLocale][$currentProperty]);
-                }
-                else
-                {
-                    if (!isset($mappedTranslations[$currentLocale]))
+                    $setterMethod = $reflectedEntity->getMethod("set" . ucfirst($currentProperty));
+                    if (isset($mappedTranslations[$currentLocale]) && isset($mappedTranslations[$currentLocale][$currentProperty]))
                     {
-                        $mappedTranslations[$currentLocale] = [];
-                        $mappedTranslationsUpdated          = true;
-                    }
-                    if (!isset($mappedTranslations[$currentLocale][$currentProperty]))
+                        $fieldTransEntity = $mappedTranslations[$currentLocale][$currentProperty];
+                        if ($fieldTransEntity->getFieldType() != $annotation->type){
+                            $fieldTransEntity->setFieldType($annotation->type);
+                            $mappedTranslationsUpdated = true;
+                        }
+                        $setterMethod->invoke($entity, $fieldTransEntity->getFieldValue());
+                    } else
                     {
-                        $mappedTranslations[$currentLocale][$currentProperty] = "";
-                        $mappedTranslationsUpdated                            = true;
+                        if (!isset($mappedTranslations[$currentLocale]))
+                        {
+                            $mappedTranslations[$currentLocale] = [];
+                            $mappedTranslationsUpdated          = true;
+                        }
+                        if (!isset($mappedTranslations[$currentLocale][$currentProperty]))
+                        {
+                            $mappedTranslations[$currentLocale][$currentProperty] = "";
+                            $mappedTranslationsUpdated                            = true;
+                        }
+                        $setterMethod->invoke($entity, "");
                     }
-                    $setterMethod->invoke($entity, "");
                 }
             }
-
             if ($mappedTranslationsUpdated)
             {
                 $entity->setTranslations($mappedTranslations, $args);

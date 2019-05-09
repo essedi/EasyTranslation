@@ -5,4 +5,7 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
         - '@Essedi/Form/translation.html.twig'
+<<<<<<< HEAD
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+=======
+>>>>>>> master

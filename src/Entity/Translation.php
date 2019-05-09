@@ -47,7 +47,7 @@ abstract class Translation
                 {
                     $toRet[$translation->getLocale()] = array();
                 }
-                $toRet[$translation->getLocale()][$translation->getFieldName()] = $translation->getFieldValue();
+                $toRet[$translation->getLocale()][$translation->getFieldName()] = $translation;
             }
         }
         if (!isset($toRet[$this->locale]))
@@ -62,7 +62,7 @@ abstract class Translation
             {
                 if (!isset($field[$avField]))
                 {
-                    $toRet[$lang][$avField] = '';
+                    $toRet[$lang][$avField] = null;
                 }
             }
         }
@@ -83,6 +83,14 @@ abstract class Translation
             {
                 foreach ($field as $name => $value)
                 {
+                    $is_array = is_array($value);
+                    if($is_array){
+                        $type = key($value);
+                        $value = $value[$type];
+                    }else{
+                        $type = $value->getFieldType();
+                        $value = $value->getFieldValue();
+                    }
                     $encountred = false;
                     if (!$this->translations || !is_array($this->translations))
                     {
@@ -90,6 +98,7 @@ abstract class Translation
                     }
                     foreach ($this->translations as $currentTrans)
                     {
+
                         if ($currentTrans->getFieldName() == $name && $currentTrans->getLocale() == $locale)
                         {
                             $encountred = true;
@@ -111,7 +120,7 @@ abstract class Translation
                     }
                     //set new value
                     $ftran->setFieldValue($value);
-
+                    $ftran->setFieldType($type);
                     $ftrans[] = $ftran;
                 }
             }
@@ -203,9 +212,31 @@ abstract class Translation
             foreach ($classProperties as $currentProperty)
             {
                 $annotatedProp = $annotationReader->getPropertyAnnotation($currentProperty, TranslateMe::class);
+
                 if ($annotatedProp)
                 {
                     $fields[] = $currentProperty->getName();
+                }
+            }
+        }
+        return $fields;
+    }
+    public function getTranslatableAnnotations()
+    {
+        $annotationReader = new AnnotationReader();
+        $reflectedEntity  = new \ReflectionClass(ClassUtils::getClass($this));
+        $res              = $annotationReader->getClassAnnotation($reflectedEntity, Translatable::class);
+        $fields           = [];
+        if ($res)
+        {
+            $classProperties = $reflectedEntity->getProperties();
+            foreach ($classProperties as $currentProperty)
+            {
+                $annotatedProp = $annotationReader->getPropertyAnnotation($currentProperty, TranslateMe::class);
+
+                if ($annotatedProp)
+                {
+                    $fields[$currentProperty->getName()] = $annotatedProp;
                 }
             }
         }

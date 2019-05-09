@@ -5,7 +5,8 @@
         "homepage": "http://essedi.es",
 	"require": {
 		"php": ">=7.1",
-		"symfony/dependency-injection": "*"
+		"symfony/dependency-injection": "*",
+		"friendsofsymfony/ckeditor-bundle": "^2.1"
 	},
     	"license": "mit",
 	"authors": [

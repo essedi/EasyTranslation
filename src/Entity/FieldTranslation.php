@@ -37,6 +37,12 @@ class FieldTranslation
     private $fieldValue;
 
     /**
+     * @var string final value
+     * @ORM\Column(type="string", length=255, nullable=true,options={"default":"text"})
+     */
+    private $fieldType;
+
+    /**
      * @return int
      */
     public function getId()
@@ -100,7 +106,24 @@ class FieldTranslation
 
         return $this;
     }
+    /**
+     * @return mixed
+     */
+    public function getFieldType()
+    {
+        return $this->fieldType;
+    }
 
+    /**
+     * @param mixed $fieldName
+     * @return FieldTranslation
+     */
+    public function setFieldType($fieldType)
+    {
+        $this->fieldType = $fieldType;
+
+        return $this;
+    }
     public function __toString()
     {
         return $this->locale . ' - ' . $this->fieldName . ' - ' . $this->fieldValue;
