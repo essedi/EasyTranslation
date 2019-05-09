@@ -2,6 +2,7 @@
     {% spaceless %}
         {% set defaultLang = 'es'%}
         {% if form %}
+            <script src="/bundles/fosckeditor/ckeditor.js"></script>
             <div class="form-group">
                 <ul class="nav nav-tabs">                    
                     {% for locale, fields in form.vars.value %}
@@ -53,9 +54,33 @@
                         {#                        <input id="newlocale" type="text" name="translations[new][locale]" value="" class="form-control"/>#}
                         {{ form_widget(form.newlocale, { 'name': 'translations[new][locale]' }) }}
                         {%   if form.vars.value != null  %}
-                            {% for fieldName, fieldValue in form.vars.value[defaultLang] %}
-                                <label for="new{{fieldName}}">{% trans %}%fieldName%{% endtrans %}</label>
-                                <input id="new{{fieldName}}" type="text" name="translations[new][{{fieldName}}]" value="" class="form-control"/>
+                            {% for fieldName, fieldEntity in form.vars.value[defaultLang] %}
+                                {% if "textarea" == fieldEntity.getFieldType() or "ckeditor" == fieldEntity.getFieldType()%}
+                                    <label for="new{{fieldName}}{{fieldEntity.getFieldType()}}">{% trans %}%fieldName%{% endtrans %}</label>
+                                    <textarea id="new{{fieldName}}{{fieldEntity.getFieldType()}}"
+                                              name="translations[new][{{fieldName}}][{{fieldEntity.getFieldType()}}]"
+                                            {% if fieldEntity.getFieldType() == "textarea" %} class="form-control" {% else %} class="ckeditor" {% endif %}>
+                                    </textarea>
+                                {% elseif "checkbox" == fieldEntity.getFieldType() %}
+                                    <input type="hidden" name="translations[new][{{fieldName}}][checkbox]" value="0" />
+                                    <div class="form-widget">
+                                        <div class="form-check">
+                                            <input id="new{{fieldName}}{{fieldEntity.getFieldType()}}"
+                                                   type="checkbox"
+                                                   name="translations[new][{{fieldName}}][{{fieldEntity.getFieldType()}}]"
+                                                   class="form-check-input"
+                                                   value="1">
+                                            <label class="form-check-label" for="new{{fieldName}}{{fieldEntity.getFieldType()}}">{% trans %}%fieldName%{% endtrans %}</label>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <label for="new{{fieldName}}{{fieldEntity.getFieldType()}}">{% trans %}%fieldName%{% endtrans %}</label>
+                                    <input id="new{{fieldName}}{{fieldEntity.getFieldType()}}"
+                                           type="{{fieldEntity.getFieldType()}}"
+                                           name="translations[new][{{fieldName}}][{{fieldEntity.getFieldType()}}]"
+                                           value=""
+                                           class="form-control"/>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </div>
