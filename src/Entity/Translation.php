@@ -27,8 +27,6 @@ abstract class Translation
     public function __construct()
     {
         $this->translations = new ArrayCollection();
-//        $this->locale = $this->container->getParameter('framework.default_locale');
-//        $this->locale = $this->locale ? $this->locale :'es';
     }
 
     public function getLocale()
