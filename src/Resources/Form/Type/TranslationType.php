@@ -37,12 +37,18 @@ class TranslationType extends AbstractType
         {
             $translations = $event->getData();
             $form         = $event->getForm();
+            $firstLang    = end(array_keys($translations));
             foreach ($translations as $lang => $trans)
             {
                 foreach ($trans as $field => $value)
                 {
                     //get type
                     $form->add($lang . $field . $value->getFieldType(), $this->getFieldTypeClass($value));
+                    //adds to for new lang
+                    if ($lang == $firstLang)
+                    {
+                        $form->add('new' . $field . $value->getFieldType(), $this->getFieldTypeClass($value));
+                    }
                 }
             }
         });
