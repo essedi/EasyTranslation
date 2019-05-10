@@ -93,7 +93,10 @@ class TranslatableSubscriber implements EventSubscriberInterface
                             $fieldTransEntity->setFieldType($annotation->type);
                             $mappedTranslationsUpdated = true;
                         }
-                        $setterMethod->invoke($entity, $fieldTransEntity->getFieldValue());
+                        if ($currentLocale == $locale)
+                        {
+                            $setterMethod->invoke($entity, $fieldTransEntity->getFieldValue());
+                        }
                     }
                     else
                     {
@@ -113,7 +116,10 @@ class TranslatableSubscriber implements EventSubscriberInterface
                             $mappedTranslations[$currentLocale][$currentProperty] = $ftran;
                             $mappedTranslationsUpdated                            = true;
                         }
-                        $setterMethod->invoke($entity, "");
+                        if ($currentLocale == $locale)
+                        {
+                            $setterMethod->invoke($entity, "");
+                        }
                     }
                 }
             }
