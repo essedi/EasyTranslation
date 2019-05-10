@@ -47,7 +47,7 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="{{ inputId}}">{{fieldName|trans}}</label>
                                             <div class="form-widget">
-                                                {{ form_widget(form[inputName], { 'id':inputId, 'name': inputName, 'value': fieldEntity.getFieldValue()}) }}
+                                                {{ form_widget(form[inputId], { 'id':inputId, 'name': inputName, 'value': fieldEntity.getFieldValue()}) }}
                                             </div>
                                         </div>
                                     {% endif %}
@@ -81,7 +81,7 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="{{ inputId}}">{{fieldName|trans}}</label>
                                             <div class="form-widget">
-                                                {{ form_widget(form[inputName], { 'id':inputId, 'name': inputName}) }}
+                                                {{ form_widget(form[inputId], { 'id':inputId, 'name': inputName}) }}
                                             </div>
                                         </div>
                                     {% endif %}

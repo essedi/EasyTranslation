@@ -42,14 +42,13 @@ class TranslationType extends AbstractType
             {
                 foreach ($trans as $field => $value)
                 {
-                    $fieldName = 'translations[' . $lang . '][' . $field . '][' . $value->getFieldType() . ']';
+                    $fieldName = $lang . $field . $value->getFieldType();
                     //get type
                     $form->add($fieldName, $this->getFieldTypeClass($value));
                     //adds to for new lang
                     if ($lang == $firstLang)
                     {
-                        $fieldName = 'translations[' . 'new' . '][' . $field . '][' . $value->getFieldType() . ']';
-
+                        $fieldName = 'new' . $field . $value->getFieldType();
                         $form->add($fieldName, $this->getFieldTypeClass($value));
                     }
                 }
