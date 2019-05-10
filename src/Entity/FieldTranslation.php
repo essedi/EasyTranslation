@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class FieldTranslation
 {
 
+    const FIELD_TYPE_TEXT     = 'text';
+    const FIELD_TYPE_CKEDITOR = 'ckeditor';
+    const FIELD_TYPE_TEXTAREA = 'textarea';
+    const FIELD_TYPE_CHECKBOX = 'checkbox';
+
     /**
      * @var int
      * @ORM\Column(name="id", type="integer")

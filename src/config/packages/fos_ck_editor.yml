@@ -1,8 +1,15 @@
 fos_ck_editor:
     configs:
-        cms:
-            toolbar: "cms"
-            uiColor: "#000000"
+        default:
+            toolbar: "default"
+            uiColor: "#EDEEEF"
     toolbars:
         configs:
-            cms: [ ["Save" ], "/", [ "Anchor" ], "/", [ "Maximize" ] ]
+            default: ["@basicstyles", '-', "@paragraph" , '-', "@links", '-', "@items",'-',['Maximize'], '/' , '@aligment','-','@fontstyles' , '-' , ['Source']]
+        items:
+            basicstyles: [ "Bold", "Italic", "Underline", "Strike", "Subscript", "Superscript", "-", "RemoveFormat" ]
+            fontstyles: ['Styles', 'Format', 'FontSize', "-", 'TextColor', 'BGColor']
+            paragraph:   [ "NumberedList", "BulletedList", "-", "Outdent", "Indent", "-", "Blockquote" ]
+            links:       [ "Link", "Unlink" ]
+            items: [ 'Image', 'CreateDiv', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Iframe' ]
+            aligment: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'  ]

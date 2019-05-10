@@ -124,12 +124,12 @@ Attributes:
    * type:
         * text : default value
         * textarea
-        * checkbox
-        * number
-        * date
-        * email
-        * password
-        * color
+        * checkbox 
+        * number (Working)
+        * date (Working)
+        * email (Working)
+        * password (Working)
+        * color (Working)
         * ckeditor
       
     * label:  Use name by default
