@@ -26,7 +26,7 @@
 
                                 {% for fieldName, fieldEntity in fields %}
                                     {% set inputName =  'translations['~locale~']['~fieldName~']['~fieldEntity.getFieldType()~']'%}
-                                    {% set inputId =  locale ~ fieldName ~ fieldEntity.getFieldType()%}
+                                    {% set inputId =  locale ~ '-' ~  fieldName ~ '-' ~ fieldEntity.getFieldType()%}
 
                                     {% if "checkbox" == fieldEntity.getFieldType() %}
                                         <div class="form-group">
@@ -55,12 +55,12 @@
                             </div>
                         {% endfor %}
                         <div class="tab-pane" id="new" role="tabpanel" aria-labelledby="new-tab">
-                            <label for="newlocale">{{'locale'|trans}}</label>
+                            <label for="newlocale">{{'locale_label'|trans}}</label>
                             {{ form_widget(form.newlocale, { 'name': 'translations[new][locale]' }) }}
                             {%   if form.vars.value != null  %}
                                 {% for fieldName, fieldEntity in form.vars.value[defaultLang] %}
                                     {% set inputName =  'translations['~'new'~']['~fieldName~']['~fieldEntity.getFieldType()~']'%}
-                                    {% set inputId =  'new' ~ fieldName ~ fieldEntity.getFieldType()%}
+                                    {% set inputId =  'new' ~ '-' ~ fieldName ~ '-' ~ fieldEntity.getFieldType()%}
 
                                     {% if "checkbox" == fieldEntity.getFieldType() %}
                                         <div class="form-group">
