@@ -1,7 +1,7 @@
 {
 "version": 3,
 "mappings": "AAIQ,wDACA;EACI,KAAK,EAAE,IAAI;AAEf,0BACA;EACI,UAAU,EAAE,KAAK",
-"sources": ["../translation.scss"],
+"sources": ["../scss/translation.scss"],
 "names": [],
 "file": "translation.css"
 }
