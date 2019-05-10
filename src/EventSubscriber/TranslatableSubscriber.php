@@ -67,7 +67,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
         if ($res && $entity instanceof Translation)
         {
             //getting all class translations
-            $mappedTranslations = $entity->getTranslations();
+            $mappedTranslations = $entity->getTranslations($locale);
             //the container locale
             $locales            = array_keys($mappedTranslations);
             $locales            = count($locales) ? $locales : [$locale];

@@ -36,8 +36,10 @@ abstract class Translation
         return $this->locale;
     }
 
-    public function getTranslations()
+    public function getTranslations($locale = null)
     {
+        $locale = $locale ? $locale : $this->locale;
+
         $toRet = [];
         if ($this->translations)
         {
@@ -47,13 +49,13 @@ abstract class Translation
                 {
                     $toRet[$translation->getLocale()] = array();
                 }
-                
+
                 $toRet[$translation->getLocale()][$translation->getFieldName()] = $translation;
             }
         }
-        if (!isset($toRet[$this->locale]))
+        if (!isset($toRet[$locale]))
         {
-            $toRet[$this->locale] = array();
+            $toRet[$locale] = array();
         }
         //check if all translations contains all fields
         $avFields = $this->getTranslatableAnnotations();
@@ -63,7 +65,7 @@ abstract class Translation
             {
                 if (!isset($field[$avField]))
                 {
-                    $ftran = new FieldTranslation();
+                    $ftran                  = new FieldTranslation();
                     $ftran->setFieldName($avField);
                     $ftran->setLocale($lang);
                     $ftran->setFieldType($annotation->type);
@@ -89,11 +91,14 @@ abstract class Translation
                 foreach ($field as $name => $value)
                 {
                     $is_array = is_array($value);
-                    if($is_array){
-                        $type = key($value);
+                    if ($is_array)
+                    {
+                        $type  = key($value);
                         $value = $value[$type];
-                    }else{
-                        $type = $value->getFieldType();
+                    }
+                    else
+                    {
+                        $type  = $value->getFieldType();
                         $value = $value->getFieldValue();
                     }
                     $encountred = false;
@@ -226,6 +231,7 @@ abstract class Translation
         }
         return $fields;
     }
+
     public function getTranslatableAnnotations()
     {
         $annotationReader = new AnnotationReader();
