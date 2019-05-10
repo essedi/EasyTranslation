@@ -58,8 +58,11 @@ return [
 <?php
 ////App/config/services.php
 services:
-    Essedi\EasyTranslation\EventSubscriber\TranslatableSubscriber:
-        arguments: ["@annotation_reader"]
+     Essedi\EasyTranslation\EventSubscriber\TranslatableSubscriber:
+        arguments: 
+            - '@annotation_reader'
+            - '@request_stack'
+            - '%kernel.default_locale%'
         tags:
             - { name: doctrine.event_listener, event: postLoad} 
 
@@ -78,11 +81,11 @@ Only if want integrate with EasyAdmin
 ////App/config/packages/twing.php
 twig:
     paths: 
-        "%kernel.root_dir%/../vendor/Essedi/EasyTranslation/src/Resources": Essedi
+        "%kernel.project_dir%/vendor/Essedi/EasyTranslation/src/Resources/views": EssediEasyTranslation
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes:
-        - '@Essedi/Form/translation.html.twig'
+        - '@EssediEasyTranslation/easy_admin/translation.html.twig'
 
 ```
 ### Step 4: Set Entity for translate
@@ -128,6 +131,10 @@ Attributes:
         * password
         * color
         * ckeditor
+      
+    * label:  Use name by default
+
+    * config: array of configs values
          
 #### extend class 
 ```php
