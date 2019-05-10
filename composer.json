@@ -1,31 +1,36 @@
 {
-	"name": "Essedi/EasyTranslation",
-	"description": "",
-	"type": "symfony-bundle",
-        "homepage": "http://essedi.es",
-	"require": {
-		"php": ">=7.1",
-		"symfony/dependency-injection": "*",
-		"friendsofsymfony/ckeditor-bundle": "^2.1"
-	},
-    	"license": "mit",
-	"authors": [
-		{
-		    "name": "Dario Spitaleri",
-		    "email": "dario@essedi.es"
-		},
-		{
-		    "name": "Dani Lozano",
-		    "email": "dani@essedi.es"
-		},
-		{
-		    "name": "Victor Dos Santos",
-		    "email": "victor@essedi.es"
-		}
-    	],
-    	"minimum-stability": "stable",
-        "autoload": {
-            "psr-4": {"Essedi\\EasyTranslation\\": "src/"}
+    "name": "Essedi/EasyTranslation",
+    "description": "",
+    "type": "symfony-bundle",
+    "homepage": "http://essedi.es",
+    "require": {
+        "php": ">=7.1",
+        "symfony/dependency-injection": "*",
+        "friendsofsymfony/ckeditor-bundle": "^2.1"
+    },
+    "license": "mit",
+    "authors": [
+        {
+            "name": "Dario Spitaleri",
+            "email": "dario@essedi.es"
+        },
+        {
+            "name": "Dani Lozano",
+            "email": "dani@essedi.es"
+        },
+        {
+            "name": "Victor Dos Santos",
+            "email": "victor@essedi.es"
+        },
+        {
+            "name": "Rubén Diaz",
+            "email": "ruben@essedi.es"
         }
-    		
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Essedi\\EasyTranslation\\": "src/"
+        }
+    }
 }

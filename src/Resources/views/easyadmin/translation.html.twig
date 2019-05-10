@@ -7,7 +7,7 @@
                     <ul class="nav nav-tabs">                    
                         {% for locale, fields in form.vars.value %}
                             <li class="nav-item {{locale == defaultLang ? 'active' : ''}}">
-                                <a class="nav-link" id="{{locale}}-tab" data-toggle="tab" role="tab" aria-controls="{{locale}}" aria-selected="true" href="#{{locale}}">{{locale}}</a>
+                                <a class="nav-link {{locale == defaultLang ? 'active' : ''}}" id="{{locale}}-tab" data-toggle="tab" role="tab" aria-controls="{{locale}}" aria-selected="true" href="#{{locale}}">{{locale}}</a>
                             </li>
                         {% endfor %}
                         <li class="nav-item">

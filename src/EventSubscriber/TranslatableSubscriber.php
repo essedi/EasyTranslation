@@ -10,6 +10,7 @@ use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Essedi\EasyTranslation\Annotation\Translatable;
 use Doctrine\Common\Util\ClassUtils;
 use Essedi\EasyTranslation\Entity\FieldTranslation;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class TranslatableSubscriber implements EventSubscriberInterface
 {
@@ -20,9 +21,25 @@ class TranslatableSubscriber implements EventSubscriberInterface
      */
     private $annotationReader;
 
-    public function __construct(Reader $annotationReader)
+    /**
+     * @var RequestStack 
+     */
+    protected $requestStack;
+
+    /**
+     * Default Lang sets on config
+     * @var string 
+     */
+    private $defLang;
+
+    public function __construct(
+            Reader $annotationReader,
+            RequestStack $requestStack,
+            string $defLang)
     {
         $this->annotationReader = $annotationReader;
+        $this->requestStack     = $requestStack;
+        $this->defLang          = $defLang;
     }
 
     public static function getSubscribedEvents()
@@ -40,35 +57,45 @@ class TranslatableSubscriber implements EventSubscriberInterface
     {
         $entity        = $args->getEntity();
         $entityManager = $args->getEntityManager();
+        $locale        = $this->requestStack->getCurrentRequest()->getLocale();
 
         $class           = ClassUtils::getClass($entity);
         $reflectedEntity = new \ReflectionClass($class);
         $res             = $this->annotationReader->getClassAnnotation($reflectedEntity, Translatable::class);
+
         //the clas has been marked as Translatable
         if ($res && $entity instanceof Translation)
         {
             //getting all class translations
             $mappedTranslations = $entity->getTranslations();
             //the container locale
-            $locales = array_keys($mappedTranslations);
-            $locales = count($locales) ? $locales : ["es"];
+            $locales            = array_keys($mappedTranslations);
+            $locales            = count($locales) ? $locales : [$locale];
+
+            if (!in_array($this->defLang, $locales))
+            {
+                $locales[] = $this->defLang;
+            }
 
             $classProperties = $entity->getTranslatableAnnotations();
 
             $mappedTranslationsUpdated = false;
-            foreach ($locales as $currentLocale){
+            foreach ($locales as $currentLocale)
+            {
                 foreach ($classProperties as $currentProperty => $annotation)
                 {
                     $setterMethod = $reflectedEntity->getMethod("set" . ucfirst($currentProperty));
                     if (isset($mappedTranslations[$currentLocale]) && isset($mappedTranslations[$currentLocale][$currentProperty]))
                     {
                         $fieldTransEntity = $mappedTranslations[$currentLocale][$currentProperty];
-                        if ($fieldTransEntity->getFieldType() != $annotation->type){
+                        if ($fieldTransEntity->getFieldType() != $annotation->type)
+                        {
                             $fieldTransEntity->setFieldType($annotation->type);
                             $mappedTranslationsUpdated = true;
                         }
                         $setterMethod->invoke($entity, $fieldTransEntity->getFieldValue());
-                    } else
+                    }
+                    else
                     {
                         if (!isset($mappedTranslations[$currentLocale]))
                         {
@@ -81,6 +108,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
                             $ftran->setFieldName($currentProperty);
                             $ftran->setLocale($currentLocale);
                             $ftran->setFieldType($annotation->type);
+                            $ftran->setFieldLabel($annotation->label);
 
                             $mappedTranslations[$currentLocale][$currentProperty] = $ftran;
                             $mappedTranslationsUpdated                            = true;

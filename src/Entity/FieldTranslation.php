@@ -25,6 +25,12 @@ class FieldTranslation
     private $locale;
 
     /**
+     * @var string input label
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fieldLabel;
+
+    /**
      * @var string column filed name 
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -37,7 +43,7 @@ class FieldTranslation
     private $fieldValue;
 
     /**
-     * @var string final value
+     * @var string input type
      * @ORM\Column(type="string", length=255, nullable=true,options={"default":"text"})
      */
     private $fieldType;
@@ -106,6 +112,7 @@ class FieldTranslation
 
         return $this;
     }
+
     /**
      * @return mixed
      */
@@ -124,6 +131,22 @@ class FieldTranslation
 
         return $this;
     }
+
+    public function getFieldLabel()
+    {
+        if (!$this->fieldLabel && $this->getFieldName())
+        {
+            $this->fieldLabel = $this->getFieldName();
+        }
+        return $this->fieldLabel;
+    }
+
+    public function setFieldLabel($fieldLabel)
+    {
+        $this->fieldLabel = $fieldLabel;
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->locale . ' - ' . $this->fieldName . ' - ' . $this->fieldValue;
