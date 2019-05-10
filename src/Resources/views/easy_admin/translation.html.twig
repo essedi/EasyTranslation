@@ -1,7 +1,7 @@
-{% block head_stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/essedieasytranslation/assets/css/translation.css') }}">
-{% endblock %}
 {% block translation_widget %}
+    {% block head_stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/essedieasytranslation/assets/css/translation.css') }}">
+    {% endblock %}
     <div class="easyTranslation">
         {% spaceless %}
             {% set defaultLang = 'es'%}
