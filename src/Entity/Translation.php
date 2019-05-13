@@ -84,56 +84,65 @@ abstract class Translation
         $ftrans = [];
         foreach ($translations as $locale => $field)
         {
+            if ($locale == "new" || !$locale)
+            {
+                continue;
+            }
             if (is_array($field))
             {
                 foreach ($field as $name => $value)
                 {
-                    $is_array = is_array($value);
-                    if ($is_array)
+                    if (!is_object($value))
                     {
-                        $type  = key($value);
-                        $value = $value[$type];
+                        if (is_array($value))
+                        {
+                            $type  = key($value);
+                            $value = $value[$type];
+                        }
+                        else
+                        {
+                            $type = null;
+                        }
                     }
                     else
                     {
                         $type  = $value->getFieldType();
                         $value = $value->getFieldValue();
                     }
-                    $encountred = false;
-                    if (!$this->translations || !is_array($this->translations))
+                    $ftran = $this->getFieldTranslation($name, $locale);
+                    if ($ftran)
                     {
-                        $this->translations = new ArrayCollection([]);
+                        //set new value
+                        $ftran->setFieldValue($value);
+                        $ftran->setFieldType($type);
+                        $ftrans[] = $ftran;
                     }
-                    foreach ($this->translations as $currentTrans)
-                    {
-
-                        if ($currentTrans->getFieldName() == $name && $currentTrans->getLocale() == $locale)
-                        {
-                            $encountred = true;
-                            $ftran      = $currentTrans;
-                            break;
-                        }
-                    }
-                    if (!$encountred)
-                    {
-                        // If not exist create new 
-                        $ftran = new FieldTranslation();
-                        $ftran->setFieldName($name);
-                        $ftran->setLocale($locale);
-                        if ($args)
-                        {
-                            $entityManager = $args->getEntityManager();
-                            $entityManager->persist($ftran);
-                        }
-                    }
-                    //set new value
-                    $ftran->setFieldValue($value);
-                    $ftran->setFieldType($type);
-                    $ftrans[] = $ftran;
                 }
+            }
+            else
+            {
+//                die(var_dump("HERE", $locale, $field, $translations));
             }
         }
         $this->translations = new ArrayCollection($ftrans);
+    }
+
+    public function getFieldTranslation($fieldName, $locale = null): FieldTranslation
+    {
+        foreach ($this->translations as $currentTrans)
+        {
+
+            if ($currentTrans->getFieldName() == $fieldName && $currentTrans->getLocale() == $locale)
+            {
+                return $currentTrans;
+            }
+        }
+
+        // If not exist create new 
+        $ftran = new FieldTranslation();
+        $ftran->setFieldName($fieldName);
+        $ftran->setLocale($locale);
+        return $ftran;
     }
 
     public function getFieldTranslations($translatableField)

@@ -178,42 +178,81 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         );
     }
 
-    public function editTranslatable(GenericEvent $event)
+     public function editTranslatable(GenericEvent $event)
     {
 
-        $args = $event->getArguments();
+        $args          = $event->getArguments();
         $requestParams = $args["request"]->request->all();
+
         $entity = $event->getSubject();
         if ($entity instanceof Translation)
         {
-            if (isset($requestParams["translations"]))
+            $this->setTranslations($requestParams, $entity);
+            foreach ($requestParams as $data)
             {
-                //get new locale 
-                foreach ($requestParams as $requestParam)
-                {
-                    if (isset($requestParam["translations"]["newlocale"]))
-                    {
-                        $newLocale = $requestParam["translations"]["newlocale"];
-                        break;
-                    }
-                }
-
-                if ($newLocale)
-                {
-                    $requestParams["translations"][$newLocale] = [];
-                    foreach ($requestParams["translations"]['new'] as $field => $value)
-                    {
-                        if ($field != 'locale')
-                        {
-                            $requestParams["translations"][$newLocale][$field] = $value;
-                        }
-                    }
-                }
-                unset($requestParams["translations"]['new']);
-                $entity->setTranslations($requestParams["translations"]);
+                $this->setTranslations($data, $entity);
             }
         }
     }
+
+    protected function setTranslations($data, $entity)
+    {
+        if (isset($data["translations"]))
+        {
+            $translations = [];
+            $newlocale    = null;
+            foreach ($data["translations"] as $field => $value)
+            {
+                if (!is_array($value))
+                {
+                    if ($field !== "newlocale")
+                    {
+                        $fieldData   = explode('-', $field);
+                        $fieldLocale = $fieldData[0];
+
+                        $fieldName  = $fieldData[1];
+                        $fieldType  = $fieldData[2];
+                        $fieldValue = $value;
+                        if (!isset($translations[$fieldLocale]))
+                        {
+                            $translations[$fieldLocale] = [];
+                        }
+                        $translations[$fieldLocale][$fieldName] = $fieldValue;
+                    }
+                }
+                else
+                {
+                    if (!isset($translations[$field]))
+                    {
+                        $translations[$field] = [];
+                    }
+                    $translations[$field] = $value;
+                }
+
+                if ($field == "newlocale")
+                {
+                    $newlocale = $value;
+                }
+            }
+            if ($newlocale)
+            {
+                $translations = $this->setLocaleKey($translations, $newlocale);
+            }
+            $entity->setTranslations($translations);
+        }
+    }
+
+    function setLocaleKey($translations, $locale)
+    {
+        if (!array_key_exists("new", $translations))
+        {
+            return $translations;
+        }
+        $keys                             = array_keys($translations);
+        $keys[array_search("new", $keys)] = $locale;
+        return array_combine($keys, $translations);
+    }
+
 
 }
 
@@ -245,5 +284,8 @@ Created by:
 	  daniel@essedi.es
 	
 	* Victor Dos Santos
+	  victor@essedi.es
+
+        * Rubén Diez
 	  victor@essedi.es
 
