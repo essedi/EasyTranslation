@@ -31,30 +31,32 @@ class TranslationType extends AbstractType
                 "es",
                 "en"
             ],
-            "placeholder"       => "Chose one"
+            "placeholder"       => "chose_one"
         ));
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event)
         {
             $translations = $event->getData();
             $form         = $event->getForm();
-            $firstLang    = array_keys($translations)[0];
-            foreach ($translations as $lang => $trans)
+            if ($translations && count($translations))
             {
-                foreach ($trans as $field => $value)
+                $firstLang = array_keys($translations)[0];
+                foreach ($translations as $lang => $trans)
                 {
-                    $fieldName = $lang . '-' . $field . '-' . $value->getFieldType();
-                    //get type
-                    $form->add($fieldName, $this->getFieldTypeClass($value));
-                    //adds to for new lang
-                    if ($lang == $firstLang)
+                    foreach ($trans as $field => $value)
                     {
-                        $fieldName = 'new' . '-' . $field . '-' . $value->getFieldType();
+                        $fieldName = $lang . '-' . $field . '-' . $value->getFieldType();
+                        //get type
                         $form->add($fieldName, $this->getFieldTypeClass($value));
+                        //adds to for new lang
+                        if ($lang == $firstLang)
+                        {
+                            $fieldName = 'new' . '-' . $field . '-' . $value->getFieldType();
+                            $form->add($fieldName, $this->getFieldTypeClass($value));
+                        }
                     }
                 }
             }
         });
-        $builder->add('ckeditor', CKEditorType::class);
     }
 
     /**
