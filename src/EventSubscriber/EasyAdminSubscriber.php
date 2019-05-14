@@ -117,17 +117,20 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 {
                     if ($field !== "newlocale")
                     {
-                        $fieldData   = explode('-', $field);
-                        $fieldLocale = $fieldData[0];
-
-                        $fieldName  = $fieldData[1];
-//                        $fieldType  = $fieldData[2]; Unnused type
-                        $fieldValue = $value;
-                        if (!isset($translations[$fieldLocale]))
+                        if (strpos($field, "-") !== false)
                         {
-                            $translations[$fieldLocale] = [];
+                            $fieldData   = explode('-', $field);
+                            $fieldLocale = $fieldData[0];
+
+                            $fieldName  = $fieldData[1];
+//                        $fieldType  = $fieldData[2]; Unnused type
+                            $fieldValue = $value;
+                            if (!isset($translations[$fieldLocale]))
+                            {
+                                $translations[$fieldLocale] = [];
+                            }
+                            $translations[$fieldLocale][$fieldName] = $fieldValue;
                         }
-                        $translations[$fieldLocale][$fieldName] = $fieldValue;
                     }
                 }
                 else
@@ -158,7 +161,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
      * @param string $locale
      * @return array
      */
-    function setLocaleKey($translations, $locale)
+    protected function setLocaleKey($translations, $locale)
     {
         if (!array_key_exists("new", $translations))
         {
