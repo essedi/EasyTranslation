@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -37,11 +38,14 @@ class TranslationType extends AbstractType
         {
             $translations = $event->getData();
             $form         = $event->getForm();
+            //adds new lang
+            $form->add('tab-new', UrlType::class);
             if ($translations && count($translations))
             {
                 $firstLang = array_keys($translations)[0];
                 foreach ($translations as $lang => $trans)
                 {
+                    $form->add('tab-' . $lang, UrlType::class);
                     foreach ($trans as $field => $value)
                     {
                         $fieldName = $lang . '-' . $field . '-' . $value->getFieldType();

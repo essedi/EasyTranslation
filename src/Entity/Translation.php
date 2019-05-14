@@ -27,6 +27,8 @@ abstract class Translation
     public function __construct()
     {
         $this->translations = new ArrayCollection();
+        //sets default translations
+        $this->setTranslations($this->getTranslations());
     }
 
     public function getLocale()

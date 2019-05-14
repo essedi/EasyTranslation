@@ -4,42 +4,42 @@
     {% endblock %}
     <div class="easyTranslation">
         {% spaceless %}
-            {% set defaultLang = 'es'%}
+            {% set defaultLang = app.request.getLocale()%}
             {% if form %}
                 <div class="form-group">
                     <div class="tab-header">                 
                         <ul class="nav nav-tabs">                    
                             {% for locale, fields in form.vars.value %}
                                 <li class="nav-item">
-                                    <a class="nav-link {{locale == defaultLang ? 'active' : ''}}" id="{{locale}}-tab" data-toggle="tab" role="tab" aria-controls="{{locale}}" aria-selected="true" href="#{{locale}}">{{locale}}</a>
+                                    <a class="nav-link {{locale == defaultLang ? 'active' : ''}}" id="{{form['tab-'~locale].vars.id}}-tab" data-toggle="tab" role="tab" aria-controls="{{locale}}" aria-selected="true" href="#{{form['tab-'~locale].vars.id}}">{{locale}}</a>
                                 </li>
                             {% endfor %}
                             <li class="nav-item">
-                                <a class="nav-link" id="new-tab" data-toggle="tab" role="tab" aria-controls="new" aria-selected="true"  href="#new"><i class="fa fa-plus"></i></a>
+                                <a class="nav-link" id="{{form['tab-new'].vars.id}}-tab" data-toggle="tab" role="tab" aria-controls="new" aria-selected="true"  href="#{{form['tab-new'].vars.id}}"><i class="fa fa-plus"></i></a>
+
                             </li>
                         </ul>
                     </div>
 
                     <div class="tab-content">                 
                         {% for locale, fields in form.vars.value %}
-                            <div class="tab-pane {{locale == defaultLang ? 'active' : ''}}" id="{{locale}}" role="tabpanel" aria-labelledby="{{locale}}-tab">
+                            <div class="tab-pane {{locale == defaultLang ? 'active' : ''}}" id="{{form['tab-'~locale].vars.id}}" role="tabpanel" aria-labelledby="{{locale}}-tab">
 
                                 {% for fieldName, fieldEntity in fields %}
-                                    {% set inputName =  'translations['~locale~']['~fieldName~']['~fieldEntity.getFieldType()~']'%}
                                     {% set inputId =  locale ~ '-' ~  fieldName ~ '-' ~ fieldEntity.getFieldType()%}
 
                                     {% if "checkbox" == fieldEntity.getFieldType() %}
                                         <div class="form-group">
-                                            <input type="hidden" name="{{ inputName }}" value="0" />
+                                            <input type="hidden" name="{{ form[inputId].vars.name }}" value="0" />
                                             <div class="form-widget">
                                                 <div class="form-check">
-                                                    <input id="{{inputId}}"
+                                                    <input id="{{form[inputId].vars.id}}"
                                                            type="checkbox"
                                                            name="{{ inputName }}"
                                                            class="form-check-input"
                                                            value="1" {% if fieldEntity.getFieldValue() == "1" %} checked="checked" {% endif %}>
                                                 </div>
-                                                <label class="form-check-label" for="{{inputId}}">{{fieldName|trans}}</label>
+                                                <label class="form-check-label" for="{{form[inputId].vars.id}}">{{fieldName|trans}}</label>
                                             </div>
                                         </div>
                                     {% else %}
@@ -47,41 +47,40 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="{{ inputId}}">{{fieldName|trans}}</label>
                                             <div class="form-widget">
-                                                {{ form_widget(form[inputId], { 'id':inputId, 'name': inputName, 'value': fieldEntity.getFieldValue()}) }}
+                                                {{ form_widget(form[inputId], {'value': fieldEntity.getFieldValue()}) }}
                                             </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
                             </div>
                         {% endfor %}
-                        <div class="tab-pane" id="new" role="tabpanel" aria-labelledby="new-tab">
+                        <div class="tab-pane" id="{{form['tab-new'].vars.id}}" role="tabpanel" aria-labelledby="new-tab">
                             <label for="newlocale">{{'locale_label'|trans}}</label>
                             {{ form_widget(form.newlocale, { 'name': 'translations[new][locale]' }) }}
                             {%   if form.vars.value != null  %}
                                 {% for fieldName, fieldEntity in form.vars.value[defaultLang] %}
-                                    {% set inputName =  'translations['~'new'~']['~fieldName~']['~fieldEntity.getFieldType()~']'%}
                                     {% set inputId =  'new' ~ '-' ~ fieldName ~ '-' ~ fieldEntity.getFieldType()%}
 
                                     {% if "checkbox" == fieldEntity.getFieldType() %}
                                         <div class="form-group">
-                                            <input type="hidden" name="{{ inputName }}" value="0" />
+                                            <input type="hidden" name="{{ form[inputId].vars.name }}" value="0" />
                                             <div class="form-widget">
                                                 <div class="form-check">
-                                                    <input id="{{inputId}}"
+                                                    <input id="{{form[inputId].vars.id}}"
                                                            type="checkbox"
-                                                           name="{{ inputName }}"
+                                                           name="{{ form[inputId].vars.name }}"
                                                            class="form-check-input"
                                                            value="1">
                                                 </div>
-                                                <label class="form-check-label" for="{{inputId}}">{{fieldName|trans}}</label>
+                                                <label class="form-check-label" for="{{form[inputId].vars.id}}">{{fieldName|trans}}</label>
                                             </div>
                                         </div>
                                     {% else %}
 
                                         <div class="form-group">
-                                            <label class="form-control-label" for="{{ inputId}}">{{fieldName|trans}}</label>
+                                            <label class="form-control-label" for="{{ form[inputId].vars.id}}">{{fieldName|trans}}</label>
                                             <div class="form-widget">
-                                                {{ form_widget(form[inputId], { 'id':inputId, 'name': inputName}) }}
+                                                {{ form_widget(form[inputId]) }}
                                             </div>
                                         </div>
                                     {% endif %}
