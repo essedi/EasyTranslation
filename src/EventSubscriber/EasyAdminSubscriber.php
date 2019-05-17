@@ -5,8 +5,10 @@ namespace Essedi\EasyTranslation\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Essedi\EasyTranslation\Entity\Translation;
+use Essedi\EasyTranslation\Entity\FieldTranslation;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Doctrine\Common\Annotations\Reader;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Description of EasyAdminSubscriber
@@ -22,9 +24,15 @@ class EasyAdminSubscriber implements EventSubscriberInterface
      */
     private $annotationReader;
 
-    public function __construct(Reader $annotationReader)
+    /**
+     * @var RequestStack 
+     */
+    protected $requestStack;
+
+    public function __construct(Reader $annotationReader, RequestStack $requestStack)
     {
         $this->annotationReader = $annotationReader;
+        $this->requestStack     = $requestStack;
     }
 
     public static function getSubscribedEvents()
@@ -57,6 +65,8 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             $this->setTranslations($data["translations"], $entity);
             //check for subentities 
             $this->forTranslations($data, $entity);
+            //reload entity
+            $this->setTranslatableValues($entity);
         }
         else
         {
@@ -196,6 +206,26 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             throw new HttpException(500, 'Invalid translation parameters: ' . $ms);
         }
         return false;
+    }
+
+    protected function setTranslatableValues($entity)
+    {
+        $locale = $this->requestStack->getCurrentRequest()->getLocale();
+        $fields = $entity->getTranslatableFields();
+        foreach ($fields as $field)
+        {
+            $settername = 'set' . ucfirst($field);
+            if (method_exists($entity, $settername))
+            {
+                //get current value
+                $trans = $entity->getTranslation($field, $locale);
+                if ($trans && $trans instanceof FieldTranslation)
+                {
+                    $value = $trans->getFieldValue();
+                    $entity->$settername($value);
+                }
+            }
+        }
     }
 
 }

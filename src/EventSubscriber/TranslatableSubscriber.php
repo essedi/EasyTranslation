@@ -49,10 +49,9 @@ class TranslatableSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /*
+    /**
      * Run when charge entity data from database
      */
-
     public function postLoad(LifecycleEventArgs $args)
     {
         $entity        = $args->getEntity();

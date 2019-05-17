@@ -225,14 +225,14 @@ abstract class Translation
     public function getTranslation($translatableField, $locale = null)
     {
         $locale = $locale ? $locale : $this->locale;
-        return reset(
-                $this->translations->filter(
-                        function (FieldTranslation $fieldTranslation) use ($translatableField, $locale)
-                {
-                    return $fieldTranslation->getFieldName() == $translatableField && $fieldTranslation->getLocale() == $locale;
-                }
-                )->toArray()
-        );
+        return array_values(
+                        $this->translations->filter(
+                                function (FieldTranslation $fieldTranslation) use ($translatableField, $locale)
+                        {
+                            return $fieldTranslation->getFieldName() == $translatableField && $fieldTranslation->getLocale() == $locale;
+                        }
+                        )->toArray()
+                )[0];
     }
 
 //    public function setTranslation($translatableField, $locale = null)
