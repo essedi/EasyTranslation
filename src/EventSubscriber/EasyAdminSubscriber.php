@@ -172,7 +172,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         return array_combine($keys, $translations);
     }
 
-    protected function validateTranslationParams($data, $entity, $throw = true)
+    protected function validateTranslationParams($data, $entity, $throw = true): bool
     {
         if (is_array($data) && is_object($entity) && $entity instanceof Translation)
         {
