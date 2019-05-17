@@ -3,6 +3,7 @@
 namespace Essedi\EasyTranslation\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -35,6 +36,54 @@ abstract class Translation
     {
         return $this->locale;
     }
+
+//    public function getFields(): Collection
+//    {
+//        return $this->fields;
+//    }
+//
+//    public function addField(FieldTranslation $field): self
+//    {
+//        if (!$this->fields->contains($field))
+//        {
+//            $this->fields[] = $field;
+//            $field->setTranslation($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeField(FieldTranslation $field): self
+//    {
+//        if ($this->fields->contains($field))
+//        {
+//            $this->fields->removeElement($field);
+//            // set the owning side to null (unless already changed)
+//            if ($field->getTranslation() === $this)
+//            {
+//                $field->setTranslation(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function setFields(Collection $fields): self
+//    {
+//        //unset all fields
+//        foreach ($this->fields as $field)
+//        {
+//            $field->setTranslation(null);
+//        }
+//        //set new fields 
+//        $this->fields = $fields;
+//        foreach ($fields as $field)
+//        {
+//            $field->setTranslation($field);
+//        }
+//
+//        return $this;
+//    }
 
     public function getTranslations($locale = null)
     {
@@ -186,6 +235,13 @@ abstract class Translation
         );
     }
 
+//    public function setTranslation($translatableField, $locale = null)
+//    {
+//        $locale = $locale ? $locale : $this->locale;
+//
+//        return $this;
+//    }
+
     /**
      * @param FieldTranslation[]|ArrayCollection $translations
      * @param $translatableField
@@ -263,4 +319,21 @@ abstract class Translation
         return $fields;
     }
 
+//    public function getDefaultLocaleTranslations($locale = null): Collection
+//    {
+//        $locale   = $locale ? $locale : $this->locale;
+//        //check if all translations contains all fields
+//        $avFields = $this->getTranslatableAnnotations();
+//        foreach ($avFields as $avField => $annotation)
+//        {
+//            if (!isset($field[$avField]))
+//            {
+//                $ftran = new FieldTranslation();
+//                $ftran->setFieldName($avField);
+//                $ftran->setLocale($locale);
+//                $ftran->setFieldType($annotation->type);
+//            }
+//        }
+//        return new ArrayCollection();
+//    }
 }

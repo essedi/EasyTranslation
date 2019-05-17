@@ -91,7 +91,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                         }
                     }
 
-                    if (is_object($newEntity) && $newEntity instanceof Translation)
+                    if (is_object($newEntity) && $newEntity instanceof Translation && isset($result["translations"]))
                     {
                         $this->setTranslations($result["translations"], $newEntity);
                     }
