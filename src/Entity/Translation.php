@@ -222,25 +222,31 @@ abstract class Translation
         );
     }
 
-    public function getTranslation($translatableField, $locale = null)
+    public function getTranslation($fieldName, $locale = null): ?FieldTranslation
     {
         $locale = $locale ? $locale : $this->locale;
         return array_values(
                         $this->translations->filter(
-                                function (FieldTranslation $fieldTranslation) use ($translatableField, $locale)
+                                function (FieldTranslation $fieldTranslation) use ($fieldName, $locale)
                         {
-                            return $fieldTranslation->getFieldName() == $translatableField && $fieldTranslation->getLocale() == $locale;
+                            return $fieldTranslation->getFieldName() == $fieldName && $fieldTranslation->getLocale() == $locale;
                         }
                         )->toArray()
                 )[0];
     }
 
-//    public function setTranslation($translatableField, $locale = null)
-//    {
-//        $locale = $locale ? $locale : $this->locale;
-//
-//        return $this;
-//    }
+    public function setTranslation($value, $fieldName, $locale = null)
+    {
+        $locale = $locale ? $locale : $this->locale;
+        $trans  = $this->getTranslation($fieldName, $locale);
+        if (!$trans)
+        {
+            //create new
+            throw new ErrorException("Set new translation not implemented yet");
+        }
+        $trans->setFieldValue($value);
+        return $this;
+    }
 
     /**
      * @param FieldTranslation[]|ArrayCollection $translations
