@@ -58,19 +58,22 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
     protected function checkForm($data, $entity)
     {
-        $data = array_values($data)[1]; //ignoring referer
-        if (is_array($data) && isset($data["translations"]) && is_object($entity) && $entity instanceof Translation)
+        if ($data && count($data) && isset(array_values($data)[1]))
         {
-            //translate this entity
-            $this->setTranslations($data["translations"], $entity);
-            //check for subentities 
-            $this->forTranslations($data, $entity);
-            //reload entity
-            $this->setTranslatableValues($entity);
-        }
-        else
-        {
-            throw new HttpException(500, 'Fail to cacth form');
+            $data = array_values($data)[1]; //ignoring referer
+            if (is_array($data) && isset($data["translations"]) && is_object($entity) && $entity instanceof Translation)
+            {
+                //translate this entity
+                $this->setTranslations($data["translations"], $entity);
+                //check for subentities 
+                $this->forTranslations($data, $entity);
+                //reload entity
+                $this->setTranslatableValues($entity);
+            }
+            else
+            {
+                throw new HttpException(500, 'Fail to cacth form');
+            }
         }
     }
 
