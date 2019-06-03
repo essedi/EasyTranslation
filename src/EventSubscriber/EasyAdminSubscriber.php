@@ -9,6 +9,7 @@ use Essedi\EasyTranslation\Entity\FieldTranslation;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
 
 /**
  * Description of EasyAdminSubscriber
@@ -72,7 +73,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             }
             else
             {
-                throw new HttpException(500, 'Fail to cacth form');
+//                throw new InternalErrorException('Fail to cacth form');
             }
         }
     }
@@ -206,7 +207,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
         if ($throw)
         {
-            throw new HttpException(500, 'Invalid translation parameters: ' . $ms);
+            throw new InternalErrorException('Invalid translation parameters: ' . $ms);
         }
         return false;
     }

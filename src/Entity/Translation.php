@@ -152,7 +152,7 @@ abstract class Translation
                         }
                         else
                         {
-                            $type = null;
+                            $type = $this->getFieldType($name);
                         }
                     }
                     else
@@ -245,6 +245,11 @@ abstract class Translation
             throw new ErrorException("Set new translation not implemented yet");
         }
         $trans->setFieldValue($value);
+        $type = $this->getFieldType($fieldName);
+        if ($trans->getFieldType() !== $type)
+        {
+            $trans->setFieldType($type);
+        }
         return $this;
     }
 
@@ -279,6 +284,30 @@ abstract class Translation
     function setLocale($locale)
     {
         $this->locale = $locale;
+    }
+
+    public function getFieldType($propertyName): ?string
+    {
+        $annotationReader = new AnnotationReader();
+        $reflectedEntity  = new \ReflectionClass(ClassUtils::getClass($this));
+        $res              = $annotationReader->getClassAnnotation($reflectedEntity, Translatable::class);
+        if ($res)
+        {
+            $classProperties = $reflectedEntity->getProperties();
+            foreach ($classProperties as $currentProperty)
+            {
+                if ($currentProperty && $currentProperty->getName() == $propertyName)
+                {
+                    $annotatedProp = $annotationReader->getPropertyAnnotation($currentProperty, TranslateMe::class);
+                    if ($annotatedProp)
+                    {
+                        $type = $annotatedProp->type;
+                        return $type;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public function getTranslatableFields()
