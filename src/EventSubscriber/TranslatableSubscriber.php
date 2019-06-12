@@ -5,6 +5,7 @@ namespace Essedi\EasyTranslation\EventSubscriber;
 use Essedi\EasyTranslation\Entity\Translation;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Essedi\EasyTranslation\Annotation\Translatable;
@@ -45,7 +46,8 @@ class TranslatableSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'postLoad'
+            'postLoad',
+            'preUpdate'
         ];
     }
 
@@ -132,6 +134,33 @@ class TranslatableSubscriber implements EventSubscriberInterface
         else if ($res)
         {
             throw new InvalidConfigurationException("The $class is annotated as Translatable but does not extends the Translation abstract class");
+        }
+    }
+
+    public function preUpdate(PreUpdateEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        $em     = $args->getEntityManager();
+        $locale = $this->requestStack->getCurrentRequest()->getLocale();
+
+        //the clas has been marked as Translatable
+        if ($entity && $entity instanceof Translation)
+        {
+            $tFields = $entity->getTranslatableFields();
+            foreach (array_keys($args->getEntityChangeSet()) as $fieldName)
+            {
+                $value = $args->getNewValue($fieldName);
+                if (array_search($fieldName, $tFields) !== false)
+                {
+                    $trans = $entity->getTranslation($fieldName, $locale);
+                    if ($trans->getFieldValue() !== $value)
+                    {
+                        $trans->setFieldValue($value);
+                        $em->persist($trans);
+                        $em->flush($trans);
+                    }
+                }
+            }
         }
     }
 
