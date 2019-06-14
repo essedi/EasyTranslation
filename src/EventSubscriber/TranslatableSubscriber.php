@@ -47,6 +47,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
     {
         return [
             'postLoad',
+            'prePersist',
             'preUpdate'
         ];
     }
@@ -137,6 +138,33 @@ class TranslatableSubscriber implements EventSubscriberInterface
         }
     }
 
+    public function prePersist(PreUpdateEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        $em     = $args->getEntityManager();
+        $locale = $this->requestStack->getCurrentRequest()->getLocale();
+
+        //the clas has been marked as Translatable
+        if ($entity && $entity instanceof Translation)
+        {
+//            $tFields = $entity->getTranslatableFields();
+//            foreach (array_keys($args->getEntityChangeSet()) as $fieldName)
+//            {
+//                $value = $args->getNewValue($fieldName);
+//                if (array_search($fieldName, $tFields) !== false)
+//                {
+//                    $trans = $entity->getTranslation($fieldName, $locale);
+//                    if ($trans->getFieldValue() !== $value)
+//                    {
+//                        $trans->setFieldValue($value);
+//                        $em->persist($trans);
+//                        $em->flush($trans);
+//                    }
+//                }
+//            }
+        }
+    }
+
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
@@ -153,7 +181,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
                 if (array_search($fieldName, $tFields) !== false)
                 {
                     $trans = $entity->getTranslation($fieldName, $locale);
-                    if ($trans->getFieldValue() !== $value)
+                    if ($trans && $trans->getFieldValue() !== $value)
                     {
                         $trans->setFieldValue($value);
                         $em->persist($trans);

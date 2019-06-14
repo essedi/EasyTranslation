@@ -64,7 +64,9 @@ services:
             - '@request_stack'
             - '%kernel.default_locale%'
         tags:
-            - { name: doctrine.event_listener, event: postLoad} 
+            - { name: doctrine.event_listener, event: postLoad}
+            - { name: doctrine.event_listener, event: prePersist}
+            - { name: doctrine.event_listener, event: preUpdate}
 
             
     Essedi\EasyTranslation\Annotation\Driver\AnnotationDriver:

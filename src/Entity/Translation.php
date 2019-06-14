@@ -12,6 +12,7 @@ use Essedi\EasyTranslation\Annotation\Translatable;
 use Essedi\EasyTranslation\Annotation\TranslateMe;
 use Essedi\EasyTranslation\Entity\FieldTranslation;
 use Doctrine\Common\Util\ClassUtils;
+use ErrorException;
 
 /** @MappedSuperclass */
 abstract class Translation
@@ -225,14 +226,25 @@ abstract class Translation
     public function getTranslation($fieldName, $locale = null): ?FieldTranslation
     {
         $locale = $locale ? $locale : $this->locale;
-        return array_values(
-                        $this->translations->filter(
-                                function (FieldTranslation $fieldTranslation) use ($fieldName, $locale)
-                        {
-                            return $fieldTranslation->getFieldName() == $fieldName && $fieldTranslation->getLocale() == $locale;
-                        }
-                        )->toArray()
-                )[0];
+        $values = array_values(
+                $this->translations->filter(
+                        function (FieldTranslation $fieldTranslation) use ($fieldName, $locale)
+                {
+                    return $fieldTranslation->getFieldName() == $fieldName && $fieldTranslation->getLocale() == $locale;
+                }
+                )->toArray()
+        );
+        if (count($values))
+        {
+            return $values[0];
+        }
+        else
+        {
+
+            //needs implement create new  fieldTranslation for this field.
+//            throw new ErrorException("Fail on attempt search field $fieldName on lang $locale");
+            return null;
+        }
     }
 
     public function setTranslation($value, $fieldName, $locale = null)
