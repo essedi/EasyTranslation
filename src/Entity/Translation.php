@@ -37,7 +37,7 @@ abstract class Translation
     {
         // cloning translations
         $clones = new ArrayCollection();
-        foreach ($this->getTranslations() as $trans)
+        foreach ($this->getTranslationsObjects() as $trans)
         {
             /* @var Address $address */
             $clone = clone $trans;
