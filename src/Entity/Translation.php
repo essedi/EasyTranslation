@@ -33,6 +33,19 @@ abstract class Translation
         $this->setTranslations($this->getTranslations());
     }
 
+    public function __clone()
+    {
+        // cloning translations
+        $clones = new ArrayCollection();
+        foreach ($this->getTranslations() as $trans)
+        {
+            /* @var Address $address */
+            $clone = clone $trans;
+            $clones->push($clone);
+        }
+        $this->setTranslations($clones);
+    }
+
     public function getLocale()
     {
         return $this->locale;

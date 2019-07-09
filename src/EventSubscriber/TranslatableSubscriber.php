@@ -59,7 +59,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
     {
         $entity        = $args->getEntity();
         $entityManager = $args->getEntityManager();
-        $locale        = $this->requestStack->getCurrentRequest() ? $this->requestStack->getCurrentRequest()->getLocale() : null; //get default lang
+        $locale        = $this->requestStack->getCurrentRequest() ? $this->requestStack->getCurrentRequest()->getLocale() : $this->defLang; //get default lang
 
         $class           = ClassUtils::getClass($entity);
         $reflectedEntity = new \ReflectionClass($class);
@@ -142,8 +142,8 @@ class TranslatableSubscriber implements EventSubscriberInterface
     {
         $entity = $args->getEntity();
         $em     = $args->getEntityManager();
-        $locale = $this->requestStack->getCurrentRequest() ? $this->requestStack->getCurrentRequest()->getLocale() : null; //get default lang
-        
+        $locale = $this->requestStack->getCurrentRequest() ? $this->requestStack->getCurrentRequest()->getLocale() : $this->defLang;
+
         //the clas has been marked as Translatable
         if ($entity && $entity instanceof Translation)
         {
@@ -169,7 +169,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
     {
         $entity = $args->getEntity();
         $em     = $args->getEntityManager();
-        $locale        = $this->requestStack->getCurrentRequest() ? $this->requestStack->getCurrentRequest()->getLocale(): null;//get default lang
+        $locale = $this->requestStack->getCurrentRequest() ? $this->requestStack->getCurrentRequest()->getLocale() : $this->defLang;
 
         //the clas has been marked as Translatable
         if ($entity && $entity instanceof Translation)

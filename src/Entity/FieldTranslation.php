@@ -53,12 +53,26 @@ class FieldTranslation
      */
     private $fieldType;
 
+    public function __clone()
+    {
+        if ($this->getId())
+        {
+            $this->setId();
+        }
+    }
+
     /**
      * @return int
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id = null)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
