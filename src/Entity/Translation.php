@@ -41,7 +41,7 @@ abstract class Translation
         {
             /* @var Address $address */
             $clone = clone $trans;
-            $clones->push($clone);
+            $clones->add($clone);
         }
         $this->setTranslations($clones);
     }
