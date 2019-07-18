@@ -43,7 +43,7 @@ abstract class Translation
             $clone = clone $trans;
             $clones->add($clone);
         }
-        $this->setTranslations($clones);
+        $this->setTranslationsObjects($clones);
     }
 
     public function getLocale()
@@ -144,6 +144,12 @@ abstract class Translation
         return $this->translations;
     }
 
+    public function setTranslationsObjects(Collection $translations)
+    {
+        $this->translations = $translations;
+        return $this;
+    }
+
     public function setTranslations($translations, LifecycleEventArgs $args = null)
     {
         $ftrans = [];
@@ -204,9 +210,10 @@ abstract class Translation
         }
 
         // If not exist create new 
-        $ftran = new FieldTranslation();
+        $ftran                = new FieldTranslation();
         $ftran->setFieldName($fieldName);
         $ftran->setLocale($locale);
+        $this->translations[] = $ftran;
         return $ftran;
     }
 
@@ -253,7 +260,6 @@ abstract class Translation
         }
         else
         {
-
             //needs implement create new  fieldTranslation for this field.
 //            throw new ErrorException("Fail on attempt search field $fieldName on lang $locale");
             return null;
@@ -263,7 +269,7 @@ abstract class Translation
     public function setTranslation($value, $fieldName, $locale = null)
     {
         $locale = $locale ? $locale : $this->locale;
-        $trans  = $this->getTranslation($fieldName, $locale);
+        $trans  = $this->getFieldTranslation($fieldName, $locale);
         if (!$trans)
         {
             //create new
