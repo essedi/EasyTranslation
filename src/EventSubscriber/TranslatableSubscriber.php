@@ -138,30 +138,31 @@ class TranslatableSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function prePersist(PreUpdateEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $em     = $args->getEntityManager();
         $locale = $this->requestStack->getCurrentRequest() ? $this->requestStack->getCurrentRequest()->getLocale() : $this->defLang;
-
         //the clas has been marked as Translatable
         if ($entity && $entity instanceof Translation)
         {
-//            $tFields = $entity->getTranslatableFields();
-//            foreach (array_keys($args->getEntityChangeSet()) as $fieldName)
-//            {
-//                $value = $args->getNewValue($fieldName);
-//                if (array_search($fieldName, $tFields) !== false)
-//                {
-//                    $trans = $entity->getTranslation($fieldName, $locale);
-//                    if ($trans->getFieldValue() !== $value)
-//                    {
-//                        $trans->setFieldValue($value);
-//                        $em->persist($trans);
-//                        $em->flush($trans);
-//                    }
-//                }
-//            }
+            $tFields = $entity->getTranslatableFields();
+//            die(var_dump($tFields));
+            foreach ($tFields as $fieldName)
+            {
+                $getter = "get" . ucfirst($fieldName);
+                if (method_exists($entity, $getter))
+                {
+                    $value = $entity->$getter();
+                    $trans = $entity->getTranslation($fieldName, $locale);
+                    if ($trans && $trans->getFieldValue() !== $value)
+                    {
+                        $trans->setFieldValue($value);
+                        $em->persist($trans);
+                        $em->flush($trans);
+                    }
+                }
+            }
         }
     }
 
