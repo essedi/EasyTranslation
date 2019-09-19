@@ -158,8 +158,6 @@ class TranslatableSubscriber implements EventSubscriberInterface
                     if ($trans && $trans->getFieldValue() !== $value)
                     {
                         $trans->setFieldValue($value);
-                        $em->persist($trans);
-                        $em->flush($trans);
                     }
                 }
             }
