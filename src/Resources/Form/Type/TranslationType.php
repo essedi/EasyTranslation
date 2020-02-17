@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -25,42 +27,80 @@ class TranslationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder->add($builder->create('translations', CollectionType::class, array('error_bubbling' => false, 'empty_data' => "")));
-        $builder->add('newlocale', LocaleType::class, array(
-            'preferred_choices' => [
-                "es",
-                "en"
-            ],
-            "placeholder"       => "chose_one"
-        ));
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event)
+        $builder->add(
+                'newlocale',
+                LocaleType::class,
+                [
+                    'preferred_choices' => [
+                        "es",
+                        "en"
+                    ],
+                    "placeholder"       => "chose_one"
+                ]
+        );
+
+        if (false)
         {
-            $translations = $event->getData();
-            $form         = $event->getForm();
-            //adds new lang
-            $form->add('tab-new', UrlType::class);
-            if ($translations && count($translations))
+            $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event)
             {
-                $firstLang = array_keys($translations)[0];
-                foreach ($translations as $lang => $trans)
+                $translations = $event->getData();
+                $form         = $event->getForm();
+                //adds new lang
+                $form->add('tab-new', UrlType::class);
+                if ($translations && count($translations))
                 {
-                    $form->add('tab-' . $lang, UrlType::class);
-                    foreach ($trans as $field => $value)
+                    $firstLang = array_keys($translations)[0];
+                    foreach ($translations as $lang => $trans)
                     {
-                        $fieldName = $lang . '-' . $field . '-' . $value->getFieldType();
-                        //get type
-                        $form->add($fieldName, $this->getFieldTypeClass($value));
-                        //adds to for new lang
-                        if ($lang == $firstLang)
+                        $form->add('tab-' . $lang, UrlType::class);
+                        foreach ($trans as $field => $value)
                         {
-                            $fieldName = 'new' . '-' . $field . '-' . $value->getFieldType();
+                            $fieldName = $lang . '-' . $field . '-' . $value->getFieldType();
+                            //get type
                             $form->add($fieldName, $this->getFieldTypeClass($value));
+                            //adds to for new lang
+                            if ($lang == $firstLang)
+                            {
+                                $fieldName = 'new' . '-' . $field . '-' . $value->getFieldType();
+                                $form->add($fieldName, $this->getFieldTypeClass($value));
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
+        else
+        {
+            $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event)
+            {
+                $translations = $event->getData();
+                $form         = $event->getForm();
+                if ($translations && count($translations))
+                {
+                    $firstLang = array_keys($translations)[0];
+                    foreach ($translations as $lang => $trans)
+                    {
+                        if ($lang == 'es')
+                        {
+                            $form->add('tab-' . $lang, UrlType::class);
+                            foreach ($trans as $field => $value)
+                            {
+                                $fieldName = $lang . '-' . $field . '-' . $value->getFieldType();
+                                //get type
+                                $form->add($fieldName, $this->getFieldTypeClass($value), ["label" => $field]);
+                                //adds to for new lang
+                                if ($lang == $firstLang)
+                                {
+                                    $fieldName = 'new' . '-' . $field . '-' . $value->getFieldType();
+                                    $form->add($fieldName, $this->getFieldTypeClass($value), ["label" => $field]);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -86,7 +126,7 @@ class TranslationType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return "translation";
+        return "essedi_easytranslator";
     }
 
     protected function getFieldTypeClass(FieldTranslation $field)
@@ -97,9 +137,11 @@ class TranslationType extends AbstractType
             case FieldTranslation::FIELD_TYPE_CHECKBOX:
                 $class = CheckboxType::class;
                 break;
+
             case FieldTranslation::FIELD_TYPE_CKEDITOR:
                 $class = CKEditorType::class;
                 break;
+
             case FieldTranslation::FIELD_TYPE_TEXTAREA:
                 $class = TextareaType::class;
                 break;
@@ -110,6 +152,11 @@ class TranslationType extends AbstractType
                 break;
         }
         return $class;
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        parent::buildView($view, $form, $options);
     }
 
 }
