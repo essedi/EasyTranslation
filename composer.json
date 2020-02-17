@@ -27,7 +27,7 @@
             "email": "ruben@essedi.es"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "alpha",
     "autoload": {
         "psr-4": {
             "Essedi\\EasyTranslation\\": "src/"
