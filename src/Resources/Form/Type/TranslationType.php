@@ -27,21 +27,21 @@ class TranslationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add($builder->create('translations', CollectionType::class, array('error_bubbling' => false, 'empty_data' => "")));
-        $builder->add(
-                'newlocale',
-                LocaleType::class,
-                [
-                    'preferred_choices' => [
-                        "es",
-                        "en"
-                    ],
-                    "placeholder"       => "chose_one"
-                ]
-        );
-
         if (false)
         {
+
+            $builder->add($builder->create('translations', CollectionType::class, array('error_bubbling' => false, 'empty_data' => "")));
+            $builder->add(
+                    'newlocale',
+                    LocaleType::class,
+                    [
+                        'preferred_choices' => [
+                            "es",
+                            "en"
+                        ],
+                        "placeholder"       => "chose_one"
+                    ]
+            );
             $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event)
             {
                 $translations = $event->getData();
@@ -81,20 +81,13 @@ class TranslationType extends AbstractType
                     $firstLang = array_keys($translations)[0];
                     foreach ($translations as $lang => $trans)
                     {
-                        if ($lang == 'es')
+                        if ($lang == $firstLang)
                         {
-                            $form->add('tab-' . $lang, UrlType::class);
                             foreach ($trans as $field => $value)
                             {
                                 $fieldName = $lang . '-' . $field . '-' . $value->getFieldType();
                                 //get type
                                 $form->add($fieldName, $this->getFieldTypeClass($value), ["label" => $field]);
-                                //adds to for new lang
-                                if ($lang == $firstLang)
-                                {
-                                    $fieldName = 'new' . '-' . $field . '-' . $value->getFieldType();
-                                    $form->add($fieldName, $this->getFieldTypeClass($value), ["label" => $field]);
-                                }
                             }
                         }
                     }
