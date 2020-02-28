@@ -213,7 +213,7 @@ abstract class Translation
         $ftran                = new FieldTranslation();
         $ftran->setFieldName($fieldName);
         $ftran->setLocale($locale);
-        $this->translations[] = $ftran;
+//        $this->translations[] = $ftran;  //May return error;
         return $ftran;
     }
 
