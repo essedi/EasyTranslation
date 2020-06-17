@@ -10,7 +10,18 @@ Installation
 
 Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
-Adds repo to composer repository
+Adds repo to composer repository  
+For use:  
+```php
+ "repositories": 
+            [
+                {
+                    "type": "composer",
+                    "url": "https://php.fury.io/essedi"
+                }
+            ],
+```
+For use and develop:
 ```php
 "repositories": [
         {
@@ -290,4 +301,3 @@ Created by:
 
         * Rubén Diez
 	  victor@essedi.es
-
