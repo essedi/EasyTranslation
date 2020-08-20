@@ -1,5 +1,5 @@
 {
-    "name": "Essedi/EasyTranslation",
+    "name": "essedi/easytranslation",
     "description": "",
     "type": "symfony-bundle",
     "homepage": "http://essedi.es",
@@ -13,10 +13,6 @@
         {
             "name": "Dario Spitaleri",
             "email": "dario@essedi.es"
-        },
-        {
-            "name": "Dani Lozano",
-            "email": "dani@essedi.es"
         },
         {
             "name": "Victor Dos Santos",
